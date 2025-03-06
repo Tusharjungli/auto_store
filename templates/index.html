@@ -4,18 +4,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>Welcome to Auto Store</title>
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
 </head>
 <body>
-    <nav>
+
+    <!-- ✅ Navigation Bar -->
+    <nav class="navbar">
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'product_list' %}">Shop</a>
+        <a href="{% url 'cart_view' %}">Cart</a>
         {% if user.is_authenticated %}
-            <p>Welcome, {{ user.username }}! <a href="{% url 'logout' %}">Logout</a></p>
+            <a href="{% url 'logout' %}">Logout</a>
         {% else %}
-            <p><a href="{% url 'login' %}">Login</a> | <a href="{% url 'signup' %}">Sign Up</a></p>
+            <a href="{% url 'login' %}">Login</a>
         {% endif %}
     </nav>
 
-    <h2>Welcome to Auto Store</h2>
+    <!-- ✅ Hero Section -->
+    <header>
+        <h1>Welcome to Auto Store</h1>
+        <p>Your one-stop shop for automobile spare parts!</p>
+        <a href="{% url 'product_list' %}" class="shop-btn">Shop Now</a>
+    </header>
+
+    <!-- ✅ Features Section -->
+    <section class="features">
+        <div class="feature">
+            <img src="{% static 'images/fast-delivery.png' %}" alt="Fast Delivery">
+            <h3>Fast Delivery</h3>
+            <p>Get your products delivered quickly and safely.</p>
+        </div>
+        <div class="feature">
+            <img src="{% static 'images/high-quality.jpg' %}" alt="High Quality">
+            <h3>Top Quality Products</h3>
+            <p>We offer only the best automobile spare parts.</p>
+        </div>
+        <div class="feature">
+            <img src="{% static 'images/secure-payment.jpg' %}" alt="Secure Payment">
+            <h3>Secure Payment</h3>
+            <p>Pay with confidence using our secure system.</p>
+        </div>
+    </section>
+
+    <!-- ✅ Featured Products -->
+    <section class="homepage-products">
+        <h2>Featured Products</h2>
+        <div class="products">
+            {% for product in products %}
+                <div class="product-card">
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                    <h3>{{ product.name }}</h3>
+                    <p>{{ product.description|truncatewords:10 }}</p>
+                    <p><strong>₹{{ product.price }}</strong></p>
+                    <a href="{% url 'add_to_cart' product.id %}" class="cart-btn">Add to Cart</a>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+
 </body>
 </html>

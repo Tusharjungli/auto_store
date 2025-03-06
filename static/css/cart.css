@@ -1,4 +1,4 @@
-/* General styles */
+/* ✅ General Styles */
 body {
   font-family: Arial, sans-serif;
   background: #f8f9fa;
@@ -7,7 +7,30 @@ body {
   padding: 0;
 }
 
-/* Cart container */
+/* ✅ Navigation Bar */
+.navbar {
+  background: #007BFF;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  margin: 0 15px;
+  font-size: 18px;
+  transition: 0.3s;
+  font-weight: bold;
+}
+
+.navbar a:hover {
+  color: #f8f9fa;
+  text-decoration: underline;
+}
+
+/* ✅ Cart Container */
 .cart-container {
   max-width: 600px;
   margin: 20px auto;
@@ -17,7 +40,7 @@ body {
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Cart item list */
+/* ✅ Cart Item */
 .cart-item {
   display: flex;
   align-items: center;
@@ -26,75 +49,79 @@ body {
   border-bottom: 1px solid #ddd;
 }
 
-/* Product name */
-.cart-item span {
-  flex: 1;
-  font-size: 16px;
-}
-
-/* Quantity controls */
+/* ✅ Quantity Controls */
 .quantity-controls {
   display: flex;
   align-items: center;
 }
 
-.quantity-controls button {
+.cart-btn {
   background: #007BFF;
   color: white;
-  border: none;
-  padding: 5px 10px;
+  padding: 8px 12px;
+  text-decoration: none;
   font-size: 16px;
-  cursor: pointer;
-  transition: 0.3s;
   border-radius: 5px;
-  margin: 0 5px;
+  transition: 0.3s;
+  font-weight: bold;
+  display: inline-block;
 }
 
-.quantity-controls button:hover {
+.cart-btn button {
+  border: none;
+  background: transparent;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.cart-btn:hover {
   background: #0056b3;
 }
 
-/* Total price */
-.total-price {
-  font-size: 18px;
-  font-weight: bold;
-  color: #28a745;
-}
-
-/* Remove button */
+/* ✅ Remove Button */
 .remove-btn {
   background: #ff4d4d;
   color: white;
-  padding: 5px 10px;
-  border: none;
-  cursor: pointer;
+  padding: 8px 12px;
+  text-decoration: none;
+  font-size: 16px;
   border-radius: 5px;
   transition: 0.3s;
+  font-weight: bold;
 }
 
 .remove-btn:hover {
   background: #cc0000;
 }
 
-/* Total price section */
+/* ✅ Total Section */
 .total-section {
   margin-top: 20px;
   font-size: 20px;
   font-weight: bold;
 }
 
-/* Continue shopping link */
-.continue-shopping {
-  display: inline-block;
-  margin-top: 15px;
-  text-decoration: none;
-  background: #17a2b8;
-  color: white;
-  padding: 10px 15px;
-  border-radius: 5px;
-  transition: 0.3s;
+/* ✅ Cart Actions */
+.cart-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
 }
 
-.continue-shopping:hover {
-  background: #117a8b;
+.continue-shopping, .home-btn {
+  display: inline-block;
+  background: #007BFF;
+  color: white;
+  padding: 10px 15px;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: 0.3s;
+  font-weight: bold;
+}
+
+.continue-shopping:hover, .home-btn:hover {
+  background: #0056b3;
 }
