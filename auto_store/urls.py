@@ -16,17 +16,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from django.shortcuts import render
-from products.views import product_list  # ✅ Import product_list
-
-
-def home_page(request):
-    return render(request, "index.html")  # ✅ Load homepage
+from products.views import product_list  # ✅ Import product list view
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
+    path("admin/", admin.site.urls),  # ✅ Django Admin Panel
     path("auth/", include("auth_system.urls")),  # ✅ Authentication URLs
-    path("", home_page, name="home"),  # ✅ Homepage
-    path("products/", include("products.urls")),  # ✅ Added products URL
-    path("", product_list, name="home"),  # ✅ Show products on the homepage
+    path("products/", include("products.urls")),  # ✅ Product URLs
+    path("", product_list, name="home"),  # ✅ Home redirects to products
 ]
+
+# ✅ Serve media files (uploaded images) during development
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

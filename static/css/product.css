@@ -29,10 +29,11 @@ body {
   transform: scale(1.05);
 }
 
-/* Product image */
+/* Ensure all product images have the same size */
 .product-card img {
-  max-width: 100%;
-  height: auto;
+  width: 100%; /* Make images fit within the card */
+  height: 200px; /* Set a fixed height */
+  object-fit: cover; /* Crop images to maintain uniformity */
   border-radius: 10px;
 }
 
@@ -50,7 +51,7 @@ body {
 
 /* Price styling */
 .product-card strong {
-  color: #28a745;
+  color: #208237;
   font-size: 16px;
 }
 

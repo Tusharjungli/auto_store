@@ -12,9 +12,11 @@
                 <img src="{{ product.image.url }}" alt="{{ product.name }}">
                 <h3>{{ product.name }}</h3>
                 <p>{{ product.description }}</p>
-                <p><strong>Price: ${{ product.price }}</strong></p>
+                <p><strong>Price: ₹{{ product.price }}</strong></p>
                 <button>Add to Cart</button>
             </div>
+        {% empty %}
+            <p>No products available.</p>    
         {% endfor %}
     </div>
 </body>
