@@ -17,6 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.shortcuts import render
+from products.views import product_list  # ✅ Import product_list
+
 
 def home_page(request):
     return render(request, "index.html")  # ✅ Load homepage
@@ -25,4 +27,6 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("auth/", include("auth_system.urls")),  # ✅ Authentication URLs
     path("", home_page, name="home"),  # ✅ Homepage
+    path("products/", include("products.urls")),  # ✅ Added products URL
+    path("", product_list, name="home"),  # ✅ Show products on the homepage
 ]
