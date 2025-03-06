@@ -13,6 +13,7 @@
                 <h3>{{ product.name }}</h3>
                 <p>{{ product.description }}</p>
                 <p><strong>Price: ₹{{ product.price }}</strong></p>
+                <a href="{% url 'add_to_cart' product.id %}">
                 <button>Add to Cart</button>
             </div>
         {% empty %}

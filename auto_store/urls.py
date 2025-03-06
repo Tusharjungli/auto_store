@@ -24,6 +24,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),  # ✅ Django Admin Panel
     path("auth/", include("auth_system.urls")),  # ✅ Authentication URLs
     path("products/", include("products.urls")),  # ✅ Product URLs
+    path("cart/", include("cart.urls")),  # ✅ Cart URLs
     path("", product_list, name="home"),  # ✅ Home redirects to products
 ]
 
