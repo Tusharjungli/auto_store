@@ -1,0 +1,100 @@
+/* General styles */
+body {
+  font-family: Arial, sans-serif;
+  background: #f8f9fa;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+
+/* Cart container */
+.cart-container {
+  max-width: 600px;
+  margin: 20px auto;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Cart item list */
+.cart-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Product name */
+.cart-item span {
+  flex: 1;
+  font-size: 16px;
+}
+
+/* Quantity controls */
+.quantity-controls {
+  display: flex;
+  align-items: center;
+}
+
+.quantity-controls button {
+  background: #007BFF;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+  border-radius: 5px;
+  margin: 0 5px;
+}
+
+.quantity-controls button:hover {
+  background: #0056b3;
+}
+
+/* Total price */
+.total-price {
+  font-size: 18px;
+  font-weight: bold;
+  color: #28a745;
+}
+
+/* Remove button */
+.remove-btn {
+  background: #ff4d4d;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+.remove-btn:hover {
+  background: #cc0000;
+}
+
+/* Total price section */
+.total-section {
+  margin-top: 20px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* Continue shopping link */
+.continue-shopping {
+  display: inline-block;
+  margin-top: 15px;
+  text-decoration: none;
+  background: #17a2b8;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+.continue-shopping:hover {
+  background: #117a8b;
+}
