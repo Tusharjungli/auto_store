@@ -44,8 +44,10 @@
     <div class="products">
         {% for product in products %}
             <div class="product-card">
-                <img src="{{ product.image.url }}" alt="{{ product.name }}">
-                <h3>{{ product.name }}</h3>
+                <a href="{% url 'product_detail' product.id %}">
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                    <h3>{{ product.name }}</h3>
+                </a>
                 <p>{{ product.description|truncatewords:10 }}</p>
                 <p><strong>₹{{ product.price }}</strong></p>
                 <a href="{% url 'add_to_cart' product.id %}" class="cart-btn">Add to Cart</a>
