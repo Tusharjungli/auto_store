@@ -1,127 +1,141 @@
-/* ✅ General Styles */
+/* ✅ Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+/* ✅ Apply Poppins Font Globally */
 body {
-  font-family: Arial, sans-serif;
-  background: #f8f9fa;
-  text-align: center;
-  margin: 0;
-  padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background: #f8f9fa;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    color: #333;
 }
 
-/* ✅ Navigation Bar */
+/* ✅ Navbar Styling */
 .navbar {
-  background: #007BFF;
-  padding: 10px;
-  display: flex;
-  justify-content: center;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    background: #007BFF;
+    padding: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
 }
 
 .navbar a {
-  color: white;
-  text-decoration: none;
-  margin: 0 15px;
-  font-size: 18px;
-  transition: 0.3s;
-  font-weight: bold;
+    font-size: 16px;
+    font-weight: 500;
+    text-transform: uppercase;
+    color: white;
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: 0.3s;
 }
 
 .navbar a:hover {
-  color: #f8f9fa;
-  text-decoration: underline;
+    background: rgba(255, 255, 255, 0.2);
 }
 
-/* ✅ Cart Container */
-.cart-container {
-  max-width: 600px;
-  margin: 20px auto;
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+/* ✅ Cart Page Heading */
+h2 {
+    font-size: 22px;
+    font-weight: 600;
+    margin: 20px 0;
 }
 
-/* ✅ Cart Item */
+/* ✅ Cart Items Section */
+.cart-items {
+    max-width: 800px;
+    margin: 20px auto;
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* ✅ Cart Item Styling (Aligned Image & Text) */
 .cart-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 15px;
-  border-bottom: 1px solid #ddd;
+    display: flex;
+    align-items: center;  
+    justify-content: space-between;
+    gap: 15px;  
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
 }
 
-/* ✅ Quantity Controls */
-.quantity-controls {
-  display: flex;
-  align-items: center;
+/* ✅ Uniform Cart Item Image */
+.cart-item img {
+    width: 100px;  
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
 }
 
-.cart-btn {
-  background: #007BFF;
-  color: white;
-  padding: 8px 12px;
-  text-decoration: none;
-  font-size: 16px;
-  border-radius: 5px;
-  transition: 0.3s;
-  font-weight: bold;
-  display: inline-block;
+/* ✅ Product Name */
+.cart-item h3 {
+    font-size: 16px;
+    font-weight: 600;  
+    margin: 0;
 }
 
-.cart-btn button {
-  border: none;
-  background: transparent;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-.cart-btn:hover {
-  background: #0056b3;
+/* ✅ Product Price */
+.cart-item .price {
+    font-size: 16px;
+    font-weight: bold;
+    color: #28a745; 
 }
 
 /* ✅ Remove Button */
 .remove-btn {
-  background: #ff4d4d;
-  color: white;
-  padding: 8px 12px;
-  text-decoration: none;
-  font-size: 16px;
-  border-radius: 5px;
-  transition: 0.3s;
-  font-weight: bold;
+    background: #ff4d4d;
+    color: white;
+    padding: 6px 10px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+    border: none;
 }
 
 .remove-btn:hover {
-  background: #cc0000;
+    background: #cc0000;
 }
 
-/* ✅ Total Section */
-.total-section {
-  margin-top: 20px;
-  font-size: 20px;
-  font-weight: bold;
+/* ✅ Quantity Controls */
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-/* ✅ Cart Actions */
-.cart-actions {
-  margin-top: 20px;
-  display: flex;
-  justify-content: center;
-  gap: 15px;
+.quantity-btn {
+    background: #007BFF;
+    color: white;
+    padding: 6px 10px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+    border: none;
 }
 
-.continue-shopping, .home-btn {
-  display: inline-block;
-  background: #007BFF;
-  color: white;
-  padding: 10px 15px;
-  text-decoration: none;
-  border-radius: 5px;
-  transition: 0.3s;
-  font-weight: bold;
+.quantity-btn:hover {
+    background: #0056b3;
 }
 
-.continue-shopping:hover, .home-btn:hover {
-  background: #0056b3;
+/* ✅ Back & Checkout Buttons */
+.back-btn, .checkout-btn {
+    display: inline-block;
+    background: #007BFF;
+    color: white;
+    padding: 10px 15px;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: 0.3s;
+    font-size: 16px;
+    margin: 15px;
+}
+
+.back-btn:hover, .checkout-btn:hover {
+    background: #0056b3;
 }

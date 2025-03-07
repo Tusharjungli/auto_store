@@ -1,52 +1,79 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import CartItem
 from products.models import Product
-from django.contrib.auth.decorators import login_required
 
-@login_required
-def add_to_cart(request, product_id):
-    """ Adds a product to the cart or increases its quantity if already added. """
-    product = get_object_or_404(Product, id=product_id)
-    cart_item, created = CartItem.objects.get_or_create(user=request.user, product=product)
-    
-    if not created:
-        cart_item.quantity += 1  # Increase quantity if already in cart
-        cart_item.save()
-
-    return redirect("cart_view")
-
-@login_required
-def remove_from_cart(request, cart_item_id):
-    """ Removes a product from the cart. """
-    cart_item = get_object_or_404(CartItem, id=cart_item_id, user=request.user)
-    cart_item.delete()
-    return redirect("cart_view")
-
-@login_required
-def increase_quantity(request, cart_item_id):
-    """ Increases the quantity of a product in the cart. """
-    cart_item = get_object_or_404(CartItem, id=cart_item_id, user=request.user)
-    cart_item.quantity += 1
-    cart_item.save()
-    return redirect("cart_view")
-
-@login_required
-def decrease_quantity(request, cart_item_id):
-    """ Decreases the quantity of a product in the cart. If quantity is 1, removes the item. """
-    cart_item = get_object_or_404(CartItem, id=cart_item_id, user=request.user)
-
-    if cart_item.quantity > 1:
-        cart_item.quantity -= 1
-        cart_item.save()
-    else:
-        cart_item.delete()  # Remove item if quantity reaches 0
-
-    return redirect("cart_view")
-
-@login_required
 def cart_view(request):
-    """ Displays the cart with all items and total price. """
-    cart_items = CartItem.objects.filter(user=request.user)
-    total_price = sum(item.total_price() for item in cart_items)
-    
-    return render(request, "cart/cart.html", {"cart_items": cart_items, "total_price": total_price})
+    """ Display the shopping cart """
+    cart = request.session.get("cart", {})
+    products = []
+
+    for product_id, quantity in cart.items():
+        product = get_object_or_404(Product, id=product_id)
+        products.append({"product": product, "quantity": quantity})
+
+    return render(request, "cart/cart.html", {"cart_items": products})
+
+def add_to_cart(request, product_id):
+    """ Add a product to the cart """
+    cart = request.session.get("cart", {})
+
+    if str(product_id) in cart:
+        cart[str(product_id)] += 1
+    else:
+        cart[str(product_id)] = 1
+
+    request.session["cart"] = cart
+    return redirect("cart_view")
+
+def remove_from_cart(request, product_id):
+    """ Remove a product from the cart """
+    cart = request.session.get("cart", {})
+
+    if str(product_id) in cart:
+        del cart[str(product_id)]
+
+    request.session["cart"] = cart
+    return redirect("cart_view")
+
+def update_cart(request, product_id, action):
+    """ Increase or decrease quantity of a product in the cart """
+    cart = request.session.get("cart", {})
+
+    if action == "increase":
+        cart[str(product_id)] += 1
+    elif action == "decrease":
+        if cart[str(product_id)] > 1:
+            cart[str(product_id)] -= 1
+        else:
+            del cart[str(product_id)]  # Remove if quantity becomes 0
+
+    request.session["cart"] = cart
+    return redirect("cart_view")
+
+def clear_cart(request):
+    """ Empty the cart """
+    request.session["cart"] = {}
+    return redirect("cart_view")
+
+def increase_quantity(request, product_id):
+    """ Increase the quantity of a product in the cart """
+    cart = request.session.get("cart", {})
+
+    if str(product_id) in cart:
+        cart[str(product_id)] += 1  # Increase quantity
+
+    request.session["cart"] = cart
+    return redirect("cart_view")
+
+def decrease_quantity(request, product_id):
+    """ Decrease the quantity of a product in the cart """
+    cart = request.session.get("cart", {})
+
+    if str(product_id) in cart:
+        if cart[str(product_id)] > 1:
+            cart[str(product_id)] -= 1  # Decrease quantity
+        else:
+            del cart[str(product_id)]  # Remove item if quantity is 0
+
+    request.session["cart"] = cart
+    return redirect("cart_view")
+
