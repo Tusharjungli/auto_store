@@ -74,9 +74,14 @@ button:hover {
   transition: transform 0.3s;
 }
 
-.product-card:hover {
-  transform: scale(1.05);
+.product-card {
+  transition: box-shadow 0.3s ease-in-out;
 }
+
+.product-card:hover {
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);  /* ✅ Subtle shadow effect */
+}
+
 
 /* ✅ Product Image */
 .product-card img {
