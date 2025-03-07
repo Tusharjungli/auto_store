@@ -1,24 +1,59 @@
 {% load static %}
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Products</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product List</title>
     <link rel="stylesheet" href="{% static 'css/product.css' %}">
 </head>
 <body>
+
+    <!-- ✅ Navigation Bar -->
+    <nav class="navbar">
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'product_list' %}">Shop</a>
+        <a href="{% url 'cart_view' %}">Cart</a>
+    </nav>
+
     <h2>Available Products</h2>
+
+    <!-- ✅ Search & Filter Form -->
+    <form method="GET" action="{% url 'product_list' %}">
+        <input type="text" name="q" placeholder="Search products..." value="{{ request.GET.q }}">
+        
+        <select name="category">
+            <option value="">All Categories</option>
+            <option value="engine" {% if selected_category == "engine" %}selected{% endif %}>Engine Parts</option>
+            <option value="brake" {% if selected_category == "brake" %}selected{% endif %}>Brake System</option>
+            <option value="lights" {% if selected_category == "lights" %}selected{% endif %}>Lights & Indicators</option>
+            <option value="battery" {% if selected_category == "battery" %}selected{% endif %}>Battery & Electrical</option>
+            <option value="accessory" {% if selected_category == "accessory" %}selected{% endif %}>Accessories</option>
+        </select>
+
+        <select name="sort">
+            <option value="">Sort by</option>
+            <option value="price_low" {% if selected_sort == "price_low" %}selected{% endif %}>Price: Low to High</option>
+            <option value="price_high" {% if selected_sort == "price_high" %}selected{% endif %}>Price: High to Low</option>
+        </select>
+
+        <button type="submit">Apply</button>
+    </form>
+
+    <!-- ✅ Product List -->
     <div class="products">
         {% for product in products %}
             <div class="product-card">
                 <img src="{{ product.image.url }}" alt="{{ product.name }}">
                 <h3>{{ product.name }}</h3>
-                <p>{{ product.description }}</p>
-                <p><strong>Price: ₹{{ product.price }}</strong></p>
-                <a href="{% url 'add_to_cart' product.id %}">
-                <button>Add to Cart</button>
+                <p>{{ product.description|truncatewords:10 }}</p>
+                <p><strong>₹{{ product.price }}</strong></p>
+                <a href="{% url 'add_to_cart' product.id %}" class="cart-btn">Add to Cart</a>
             </div>
         {% empty %}
-            <p>No products available.</p>    
+            <p>No products found.</p>
         {% endfor %}
     </div>
+
 </body>
 </html>
