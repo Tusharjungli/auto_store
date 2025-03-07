@@ -1,120 +1,194 @@
-/* ✅ General Styles */
+/* ✅ Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+/* ✅ Global Styles */
 body {
-  font-family: Arial, sans-serif;
-  background: #f8f9fa;
-  text-align: center;
-  margin: 0;
-  padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background: #f8f9fa;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    color: #333;
 }
 
 /* ✅ Navigation Bar */
 .navbar {
-  background: #007BFF;
-  padding: 10px;
-  display: flex;
-  justify-content: center;
+    background: #007BFF;
+    padding: 12px;
+    display: flex;
+    justify-content: center;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .navbar a {
-  color: white;
-  text-decoration: none;
-  margin: 0 15px;
-  font-size: 18px;
-  transition: 0.3s;
-  font-weight: bold;
+    font-size: 16px;
+    font-weight: 500;
+    text-transform: uppercase;
+    color: white;
+    text-decoration: none;
+    margin: 0 15px;
+    transition: 0.3s;
 }
 
 .navbar a:hover {
-  color: #f8f9fa;
-  text-decoration: underline;
+    color: #f8f9fa;
+    text-decoration: underline;
 }
 
 /* ✅ Search Bar & Filter */
 form {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-bottom: 15px;  /* ⬅️ Reduced margin for better spacing */
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 15px;
 }
 
 input[type="text"], select, button {
-  padding: 8px;
-  font-size: 16px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
 }
 
 button {
-  background: #007BFF;
-  color: white;
-  cursor: pointer;
-  transition: 0.3s;
+    background: #007BFF;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+    border: none;
+    font-weight: 500;
+    padding: 8px 12px;
+    border-radius: 5px;
 }
 
 button:hover {
-  background: #0056b3;
+    background: #0056b3;
 }
 
-/* ✅ Product Grid (Reduced Space) */
+/* ✅ Product Grid (Compact Layout) */
 .products {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 8px;  /* ⬅️ Reduced from 15px to make layout more compact */
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 10px;  /* ⬅️ Reduced padding */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 8px; /* Reduced gap for compact display */
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 10px;
 }
 
 /* ✅ Compact Product Card */
 .product-card {
-  width: 200px;  /* ⬅️ Slightly smaller */
-  padding: 8px;  /* ⬅️ Reduced padding */
-  margin: 5px auto;  /* ⬅️ Reduced margin for compact spacing */
-  border-radius: 8px;
-  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  transition: box-shadow 0.3s ease-in-out;
-  background: white;
+    width: 200px;
+    padding: 8px;
+    margin: 5px auto;
+    border-radius: 8px;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: box-shadow 0.3s ease-in-out;
+    background: white;
 }
 
 /* ✅ Smaller Product Image */
 .product-card img {
-  width: 100%;
-  height: 140px;  /* ⬅️ Reduced height */
-  object-fit: cover;
-  border-radius: 6px;
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 6px;
 }
 
-/* ✅ Adjust Product Title */
+/* ✅ Improve Product Title */
 .product-card h3 {
-  font-size: 15px;  /* ⬅️ Slightly smaller font */
-  margin: 4px 0;
+    font-size: 15px;
+    font-weight: 600;
+    margin: 4px 0;
+    color: #222;
 }
 
-/* ✅ Adjust Price Styling */
-.product-card p {
-  font-size: 13px;  /* ⬅️ Slightly smaller text */
-  margin: 3px 0;
+/* ✅ Improve Price Styling */
+.product-card p strong {
+    font-size: 16px;
+    font-weight: bold;
+    color: #28a745; /* Green color for price */
 }
 
 /* ✅ Subtle Hover Effect */
 .product-card:hover {
-  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.15);  /* ✅ Softer shadow effect */
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.15);
 }
 
-/* ✅ Clean Add to Cart Button */
+/* ✅ Modern Add to Cart Button */
 .cart-btn {
-  font-size: 14px;
-  padding: 6px 10px;
-  background: #007BFF;
-  color: white;
-  text-decoration: none;
-  border-radius: 5px;
-  transition: 0.3s;
-  display: inline-block;
-  margin-top: 8px;
+    font-size: 14px;
+    padding: 8px 12px;
+    font-weight: 500;
+    border-radius: 25px;
+    background: linear-gradient(135deg, #007BFF, #0056b3);
+    color: white;
+    text-decoration: none;
+    transition: 0.3s;
+    display: inline-block;
+    margin-top: 8px;
 }
 
 .cart-btn:hover {
-  background: #0056b3;
+    background: linear-gradient(135deg, #0056b3, #004494);
+}
+
+/* ✅ Product Detail Page */
+.product-detail {
+    max-width: 600px;
+    margin: 40px auto;
+    text-align: center;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.product-detail img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.product-detail h1 {
+    font-size: 28px;
+    margin-top: 10px;
+}
+
+.product-detail p {
+    font-size: 16px;
+    color: #555;
+}
+
+.price {
+    font-size: 22px;
+    color: #28a745;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.cart-btn, .back-btn {
+    display: inline-block;
+    background: #007BFF;
+    color: white;
+    padding: 10px 15px;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: 0.3s;
+    font-size: 16px;
+    margin: 10px;
+}
+
+.cart-btn:hover, .back-btn:hover {
+    background: #0056b3;
+}
+
+/* ✅ Footer */
+.footer {
+    background: #007BFF;
+    color: white;
+    padding: 15px;
+    font-size: 14px;
+    text-align: center;
+    margin-top: 30px;
 }

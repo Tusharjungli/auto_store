@@ -1,19 +1,152 @@
+/* ✅ Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+/* ✅ Apply Poppins Font Globally */
 body {
-  font-family: Arial, sans-serif;
-  background: #f8f9fa;
-  text-align: center;
+    font-family: 'Poppins', sans-serif;
+    background: #f8f9fa;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    color: #333; /* ✅ Darker text for better readability */
 }
 
-/* Navbar */
-nav {
-  background: #007BFF;
-  padding: 10px;
-  color: white;
+/* ✅ Modern Navbar Styling */
+.navbar {
+    background: #007BFF;
+    padding: 12px;
+    display: flex;
+    justify-content: center;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-nav a {
-  color: white;
-  text-decoration: none;
-  margin: 10px;
-  font-weight: bold;
+.navbar a {
+    font-size: 16px;
+    font-weight: 500;
+    text-transform: uppercase;
+    color: white;
+    text-decoration: none;
+    margin: 0 15px;
+    transition: 0.3s;
+}
+
+.navbar a:hover {
+    color: #f8f9fa;
+    text-decoration: underline;
+}
+
+/* ✅ Search Bar & Filter */
+form {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+input[type="text"], select, button {
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+button {
+    background: #007BFF;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+    border: none;
+    font-weight: 500;
+    padding: 8px 12px;
+    border-radius: 5px;
+}
+
+button:hover {
+    background: #0056b3;
+}
+
+/* ✅ Product Grid (Compact Layout) */
+.products {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 8px;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 10px;
+}
+
+/* ✅ Compact Product Card */
+.product-card {
+    width: 200px;
+    padding: 8px;
+    margin: 5px auto;
+    border-radius: 8px;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: box-shadow 0.3s ease-in-out;
+    background: white;
+}
+
+/* ✅ Smaller Product Image */
+.product-card img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+/* ✅ Improve Product Title */
+.product-card h3 {
+    font-size: 15px;
+    font-weight: 600;
+    margin: 4px 0;
+    color: #222;
+}
+
+/* ✅ Improve Price Styling */
+.product-card p strong {
+    font-size: 16px;
+    font-weight: bold;
+    color: #28a745; /* ✅ Green color to highlight price */
+}
+
+/* ✅ Subtle Hover Effect */
+.product-card:hover {
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* ✅ Modern Button Design */
+.cart-btn {
+    font-size: 14px;
+    padding: 8px 12px;
+    font-weight: 500;
+    border-radius: 25px;
+    background: linear-gradient(135deg, #007BFF, #0056b3);
+    color: white;
+    text-decoration: none;
+    transition: 0.3s;
+    display: inline-block;
+    margin-top: 8px;
+}
+
+.cart-btn:hover {
+    background: linear-gradient(135deg, #0056b3, #004494);
+}
+
+/* ✅ Page Heading */
+h2 {
+    font-size: 22px;
+    font-weight: 600;
+    color: #222;
+    margin-bottom: 20px;
+}
+
+/* ✅ Footer */
+.footer {
+    background: #007BFF;
+    color: white;
+    padding: 15px;
+    font-size: 14px;
+    text-align: center;
+    margin-top: 30px;
 }
