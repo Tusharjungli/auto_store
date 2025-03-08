@@ -18,14 +18,16 @@
 
     <!-- ✅ Product Detail Section -->
     <div class="product-detail-container">
-        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
-        
-        <div class="product-info">
-            <h2>{{ product.name }}</h2>
-            <p>{{ product.description }}</p>
-            <h3>Price: ₹{{ product.price }}</h3>
+        <div class="product-image-container">
+            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
+        </div>
 
-            <a href="{% url 'add_to_cart' product.id %}" class="add-to-cart-btn">Add to Cart</a>
+        <div class="product-info">
+            <h2 class="product-title">{{ product.name }}</h2>
+            <p class="product-description">{{ product.description }}</p>
+            <h3 class="product-price">Price: <span>₹{{ product.price }}</span></h3>
+
+            <a href="{% url 'add_to_cart' product.id %}" class="add-to-cart-btn">🛒 Add to Cart</a>
         </div>
     </div>
 

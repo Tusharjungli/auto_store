@@ -1,15 +1,43 @@
-/* ✅ Advanced Product Page Styling */
+/* ✅ General Page Styling */
 body {
     font-family: 'Poppins', sans-serif;
-    background-color: #f8f9fa;
+    background-color: #f4f7fc;
     margin: 0;
     padding: 0;
-    transition: background 0.3s ease-in-out;
+    color: #333;
 }
 
-/* ✅ Product List Page */
+/* ✅ Navigation Bar */
+.navbar {
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    padding: 15px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    width: 90%;
+    z-index: 1000;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    padding: 12px 18px;
+    font-weight: 600;
+    transition: all 0.3s ease-in-out;
+}
+
+.navbar a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    transform: scale(1.1);
+}
+
+/* ✅ Product List */
 .product-list-container {
-    max-width: 1200px;
+    max-width: 1100px;
     margin: 60px auto;
     text-align: center;
     padding: 20px;
@@ -21,7 +49,6 @@ body {
     color: #007bff;
 }
 
-/* ✅ Product Grid */
 .product-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -29,9 +56,10 @@ body {
     justify-content: center;
 }
 
+/* ✅ Product Card */
 .product-card {
     background: white;
-    padding: 20px;
+    padding: 15px;
     border-radius: 15px;
     box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
     text-align: center;
@@ -94,41 +122,55 @@ body {
 
 /* ✅ Product Detail Page */
 .product-detail-container {
-    max-width: 850px;
-    margin: 60px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    padding: 60px 20px;
+    max-width: 900px;
+    margin: auto;
     background: white;
-    padding: 25px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
     border-radius: 15px;
-    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
-    text-align: center;
 }
 
 .product-image {
-    width: 100%;
-    max-height: 450px;
-    object-fit: cover;
-    border-radius: 12px;
+    max-width: 400px;
+    height: auto;
+    border-radius: 10px;
+}
+
+.product-info {
+    text-align: left;
+    max-width: 400px;
 }
 
 .product-info h2 {
-    font-size: 2.2em;
-    margin: 15px 0;
-    font-weight: bold;
+    font-size: 2em;
+    color: #0056b3;
+    margin-bottom: 10px;
 }
 
 .product-info p {
-    font-size: 1.3em;
+    font-size: 1.2em;
     color: #555;
     margin-bottom: 15px;
 }
 
 .product-info h3 {
-    font-size: 1.7em;
-    color: #007bff;
-    margin-top: 15px;
+    font-size: 1.8em;
+    color: #28a745;
+    margin-bottom: 20px;
 }
 
-.add-to-cart-btn {
-    margin-top: 25px;
-    font-size: 1.3em;
+/* ✅ Footer */
+.footer {
+    background-color: #343a40;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    font-size: 1.1em;
+    font-weight: 500;
+    margin-top: 60px;
+    box-shadow: 0px -5px 15px rgba(0, 0, 0, 0.1);
 }
