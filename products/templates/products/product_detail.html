@@ -4,25 +4,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ product.name }}</title>
+    <title>{{ product.name }} - Auto Store</title>
     <link rel="stylesheet" href="{% static 'css/product.css' %}">
 </head>
 <body>
 
     <!-- ✅ Navigation Bar -->
     <nav class="navbar">
-        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'homepage' %}">Home</a>
         <a href="{% url 'product_list' %}">Shop</a>
-        <a href="{% url 'cart_view' %}">Cart</a>
+        <a href="{% url 'cart_view' %}">Cart 🛒</a>
     </nav>
 
-    <div class="product-detail">
-        <img src="{{ product.image.url }}" alt="{{ product.name }}">
-        <h1>{{ product.name }}</h1>
-        <p>{{ product.description }}</p>
-        <p class="price"><strong>₹{{ product.price }}</strong></p>
-        <a href="{% url 'add_to_cart' product.id %}" class="cart-btn">Add to Cart</a>
-        <a href="{% url 'product_list' %}" class="back-btn">Back to Products</a>
+    <!-- ✅ Product Detail Section -->
+    <div class="product-detail-container">
+        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
+        
+        <div class="product-info">
+            <h2>{{ product.name }}</h2>
+            <p>{{ product.description }}</p>
+            <h3>Price: ₹{{ product.price }}</h3>
+
+            <a href="{% url 'add_to_cart' product.id %}" class="add-to-cart-btn">Add to Cart</a>
+        </div>
     </div>
 
 </body>

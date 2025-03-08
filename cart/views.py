@@ -1,79 +1,52 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
 from products.models import Product
+from .models import Cart, CartItem
 
+@login_required
 def cart_view(request):
-    """ Display the shopping cart """
-    cart = request.session.get("cart", {})
-    products = []
+    """ ✅ Displays the user's shopping cart """
+    cart, created = Cart.objects.get_or_create(user=request.user)
+    cart_items = cart.items.all()
+    total_price = sum(item.total_price() if hasattr(item, "total_price") else item.product.price * item.quantity for item in cart_items)
 
-    for product_id, quantity in cart.items():
-        product = get_object_or_404(Product, id=product_id)
-        products.append({"product": product, "quantity": quantity})
 
-    return render(request, "cart/cart.html", {"cart_items": products})
+    return render(request, "cart/cart.html", {"cart_items": cart_items, "total_price": total_price})
 
+@login_required
 def add_to_cart(request, product_id):
-    """ Add a product to the cart """
-    cart = request.session.get("cart", {})
+    """ ✅ Adds a product to the shopping cart """
+    product = get_object_or_404(Product, id=product_id)
+    cart, created = Cart.objects.get_or_create(user=request.user)
+    
+    cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product)
+    if not created:
+        cart_item.quantity += 1  # ✅ If item already exists, increase quantity
+    cart_item.save()
 
-    if str(product_id) in cart:
-        cart[str(product_id)] += 1
-    else:
-        cart[str(product_id)] = 1
-
-    request.session["cart"] = cart
     return redirect("cart_view")
 
+@login_required
+def update_cart(request, product_id):
+    """ ✅ Updates the quantity of an item in the cart """
+    if request.method == "POST":
+        cart = get_object_or_404(Cart, user=request.user)
+        cart_item = get_object_or_404(CartItem, cart=cart, product_id=product_id)
+
+        new_quantity = int(request.POST.get("quantity", 1))
+        if new_quantity > 0:
+            cart_item.quantity = new_quantity
+            cart_item.save()
+        else:
+            cart_item.delete()
+
+    return redirect("cart_view")
+
+@login_required
 def remove_from_cart(request, product_id):
-    """ Remove a product from the cart """
-    cart = request.session.get("cart", {})
+    """ ✅ Removes an item from the cart """
+    cart = get_object_or_404(Cart, user=request.user)
+    cart_item = get_object_or_404(CartItem, cart=cart, product_id=product_id)
+    cart_item.delete()
 
-    if str(product_id) in cart:
-        del cart[str(product_id)]
-
-    request.session["cart"] = cart
     return redirect("cart_view")
-
-def update_cart(request, product_id, action):
-    """ Increase or decrease quantity of a product in the cart """
-    cart = request.session.get("cart", {})
-
-    if action == "increase":
-        cart[str(product_id)] += 1
-    elif action == "decrease":
-        if cart[str(product_id)] > 1:
-            cart[str(product_id)] -= 1
-        else:
-            del cart[str(product_id)]  # Remove if quantity becomes 0
-
-    request.session["cart"] = cart
-    return redirect("cart_view")
-
-def clear_cart(request):
-    """ Empty the cart """
-    request.session["cart"] = {}
-    return redirect("cart_view")
-
-def increase_quantity(request, product_id):
-    """ Increase the quantity of a product in the cart """
-    cart = request.session.get("cart", {})
-
-    if str(product_id) in cart:
-        cart[str(product_id)] += 1  # Increase quantity
-
-    request.session["cart"] = cart
-    return redirect("cart_view")
-
-def decrease_quantity(request, product_id):
-    """ Decrease the quantity of a product in the cart """
-    cart = request.session.get("cart", {})
-
-    if str(product_id) in cart:
-        if cart[str(product_id)] > 1:
-            cart[str(product_id)] -= 1  # Decrease quantity
-        else:
-            del cart[str(product_id)]  # Remove item if quantity is 0
-
-    request.session["cart"] = cart
-    return redirect("cart_view")
-

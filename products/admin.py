@@ -1,4 +1,10 @@
 from django.contrib import admin
-from .models import Product  # ✅ Import Product model
+from .models import Product
 
-admin.site.register(Product)  # ✅ Register the model
+class ProductAdmin(admin.ModelAdmin):
+    """ ✅ Custom admin panel for managing products """
+    list_display = ("name", "price", "is_featured")  # Show these columns in the admin panel
+    list_filter = ("is_featured",)  # ✅ Add filter for featured products
+    search_fields = ("name", "description")  # ✅ Enable search by product name & description
+
+admin.site.register(Product, ProductAdmin)

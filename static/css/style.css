@@ -1,153 +1,136 @@
-/* ✅ Import Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
-
-/* ✅ Apply Poppins Font Globally */
+/* ✅ General Styling */
 body {
     font-family: 'Poppins', sans-serif;
-    background: #f8f9fa;
+    background-color: #f8f9fa;
     margin: 0;
     padding: 0;
-    text-align: center;
-    color: #333;
 }
 
 /* ✅ Navigation Bar */
 .navbar {
-    background: #007BFF;
-    padding: 12px;
+    background-color: #007bff;
+    padding: 15px;
     display: flex;
-    justify-content: center;
-    align-items: center;  /* ✅ Ensures buttons are aligned properly */
-    gap: 20px;
+    justify-content: space-between;
+    align-items: center;
 }
 
-/* ✅ Navbar Buttons */
 .navbar a {
-    font-size: 16px;
-    font-weight: 500;
-    text-transform: uppercase;
     color: white;
     text-decoration: none;
     padding: 10px 15px;
-    border-radius: 5px;
-    transition: 0.3s;
 }
 
 .navbar a:hover {
-    background: rgba(255, 255, 255, 0.2);
-}
-
-/* ✅ Page Heading */
-h2 {
-    font-size: 22px;
-    font-weight: 600;
-    margin-bottom: 20px;
-}
-
-/* ✅ Search Bar & Filter */
-form {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 20px;
-}
-
-input[type="text"], select, button {
-    padding: 8px;
-    font-size: 16px;
-    border: 1px solid #ddd;
+    background-color: rgba(255, 255, 255, 0.2);
     border-radius: 5px;
 }
 
-button {
-    background: #007BFF;
-    color: white;
-    cursor: pointer;
-    transition: 0.3s;
-    border: none;
-    font-weight: 500;
-    padding: 8px 12px;
-    border-radius: 5px;
-}
-
-button:hover {
-    background: #0056b3;
-}
-
-/* ✅ Product Grid */
-.products {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 10px;
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 10px;
-}
-
-/* ✅ Product Card */
-.product-card {
-    width: 200px;
-    padding: 8px;
-    margin: 5px auto;
-    border-radius: 8px;
-    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+/* ✅ Hero Section */
+.hero {
     text-align: center;
-    transition: box-shadow 0.3s ease-in-out;
-    background: white;
-}
-
-/* ✅ Uniform Product Image Size */
-.product-card img {
-    width: 180px;
-    height: 180px;
-    object-fit: cover;
-    border-radius: 6px;
-}
-
-/* ✅ Improve Product Title */
-.product-card h3 {
-    font-size: 16px;
-    font-weight: 600;
-    margin: 4px 0;
-    color: #222;
-}
-
-/* ✅ Improve Price Styling */
-.product-card p strong {
-    font-size: 16px;
-    font-weight: bold;
-    color: #28a745;
-}
-
-/* ✅ Subtle Hover Effect */
-.product-card:hover {
-    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.15);
-}
-
-/* ✅ Cart Button */
-.cart-btn {
-    font-size: 14px;
-    padding: 8px 12px;
-    font-weight: 500;
-    border-radius: 5px;
-    background: #007BFF;
+    padding: 60px 20px;
+    background: url("../images/hero-bg.jpg") no-repeat center center/cover;
     color: white;
-    text-decoration: none;
-    transition: 0.3s;
-    display: inline-block;
-    margin-top: 8px;
 }
 
-.cart-btn:hover {
-    background: #0056b3;
+.hero h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 1.2em;
+}
+
+.shop-now-btn {
+    display: inline-block;
+    background-color: #28a745;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 1.2em;
+    margin-top: 20px;
+}
+
+.shop-now-btn:hover {
+    background-color: #218838;
+}
+
+/* ✅ Featured Products */
+.featured-products {
+    max-width: 1100px;
+    margin: 50px auto;
+    text-align: center;
+}
+
+.featured-products h2 {
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.product-card {
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.product-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.product-card h3 {
+    font-size: 1.5em;
+    margin: 10px 0;
+}
+
+.product-card p {
+    font-size: 1.2em;
+    color: #555;
+}
+
+.view-details-btn, .add-to-cart-btn {
+    display: inline-block;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: white;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+.view-details-btn {
+    background-color: #007bff;
+}
+
+.view-details-btn:hover {
+    background-color: #0056b3;
+}
+
+.add-to-cart-btn {
+    background-color: #28a745;
+}
+
+.add-to-cart-btn:hover {
+    background-color: #218838;
 }
 
 /* ✅ Footer */
 .footer {
-    background: #007BFF;
+    background-color: #343a40;
     color: white;
-    padding: 15px;
-    font-size: 14px;
     text-align: center;
-    margin-top: 30px;
+    padding: 15px;
+    margin-top: 50px;
 }
