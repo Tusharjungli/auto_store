@@ -5,15 +5,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shopping Cart - Auto Store</title>
+
+    <!-- ✅ Google Fonts - Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- ✅ CSS File -->
     <link rel="stylesheet" href="{% static 'css/cart.css' %}">
+
+    <!-- ✅ FontAwesome for Icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
 
     <!-- ✅ Navigation Bar -->
     <nav class="navbar">
-        <a href="{% url 'homepage' %}">Home</a>
-        <a href="{% url 'product_list' %}">Shop</a>
-        <a href="{% url 'cart_view' %}" class="active">Cart 🛒</a>
+        <div class="nav-container">
+            <a href="{% url 'homepage' %}" class="logo">Auto Store</a>
+            <div class="nav-links">
+                <a href="{% url 'homepage' %}" class="nav-item">Home</a>
+                <a href="{% url 'product_list' %}" class="nav-item">Shop</a>
+                <a href="{% url 'cart_view' %}" class="nav-item active">
+                    Cart <i class="fas fa-shopping-cart"></i>
+                </a>
+            </div>
+        </div>
     </nav>
 
     <!-- ✅ Cart Section -->
@@ -34,15 +49,15 @@
                 <tbody>
                     {% for item in cart_items %}
                         <tr>
-                            <td>
+                            <td class="cart-product">
                                 <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="cart-image">
-                                {{ item.product.name }}
+                                <span>{{ item.product.name }}</span>
                             </td>
-                            <td>
+                            <td class="cart-quantity">
                                 <form method="POST" action="{% url 'update_cart' item.product.id %}">
                                     {% csrf_token %}
                                     <input type="number" name="quantity" value="{{ item.quantity }}" min="1">
-                                    <button type="submit">Update</button>
+                                    <button type="submit" class="update-btn">Update</button>
                                 </form>
                             </td>
                             <td>₹{{ item.product.price }}</td>
