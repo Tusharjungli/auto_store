@@ -1,62 +1,77 @@
-/* ✅ General Product Page Styling */
+/* ✅ Advanced Product Page Styling */
 body {
     font-family: 'Poppins', sans-serif;
     background-color: #f8f9fa;
     margin: 0;
     padding: 0;
+    transition: background 0.3s ease-in-out;
 }
 
 /* ✅ Product List Page */
 .product-list-container {
-    max-width: 1100px;
-    margin: 50px auto;
+    max-width: 1200px;
+    margin: 60px auto;
     text-align: center;
+    padding: 20px;
 }
 
 .product-list-container h2 {
-    font-size: 2em;
-    margin-bottom: 20px;
+    font-size: 2.5em;
+    margin-bottom: 25px;
+    color: #007bff;
 }
 
 /* ✅ Product Grid */
 .product-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    justify-content: center;
 }
 
 .product-card {
     background: white;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
     text-align: center;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.product-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
 }
 
 .product-card img {
     width: 100%;
-    height: 200px;
+    height: 220px;
     object-fit: cover;
-    border-radius: 5px;
+    border-radius: 10px;
 }
 
 .product-card h3 {
-    font-size: 1.5em;
-    margin: 10px 0;
+    font-size: 1.6em;
+    margin: 15px 0 10px;
+    font-weight: bold;
 }
 
 .product-card p {
     font-size: 1.2em;
     color: #555;
+    margin-bottom: 15px;
 }
 
+/* ✅ Buttons */
 .view-details-btn, .add-to-cart-btn {
     display: inline-block;
-    padding: 10px 15px;
+    padding: 12px 20px;
     text-decoration: none;
     color: white;
-    border-radius: 5px;
-    font-size: 1em;
+    border-radius: 25px;
+    font-size: 1.1em;
+    font-weight: 600;
+    transition: all 0.3s ease-in-out;
 }
 
 .view-details-btn {
@@ -65,6 +80,7 @@ body {
 
 .view-details-btn:hover {
     background-color: #0056b3;
+    transform: scale(1.1);
 }
 
 .add-to-cart-btn {
@@ -73,43 +89,46 @@ body {
 
 .add-to-cart-btn:hover {
     background-color: #218838;
+    transform: scale(1.1);
 }
 
 /* ✅ Product Detail Page */
 .product-detail-container {
-    max-width: 800px;
-    margin: 50px auto;
+    max-width: 850px;
+    margin: 60px auto;
     background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
     text-align: center;
 }
 
 .product-image {
     width: 100%;
-    max-height: 400px;
+    max-height: 450px;
     object-fit: cover;
-    border-radius: 10px;
+    border-radius: 12px;
 }
 
 .product-info h2 {
-    font-size: 2em;
-    margin: 10px 0;
+    font-size: 2.2em;
+    margin: 15px 0;
+    font-weight: bold;
 }
 
 .product-info p {
-    font-size: 1.2em;
+    font-size: 1.3em;
     color: #555;
+    margin-bottom: 15px;
 }
 
 .product-info h3 {
-    font-size: 1.5em;
+    font-size: 1.7em;
     color: #007bff;
-    margin-top: 10px;
+    margin-top: 15px;
 }
 
 .add-to-cart-btn {
-    margin-top: 20px;
-    font-size: 1.2em;
+    margin-top: 25px;
+    font-size: 1.3em;
 }
