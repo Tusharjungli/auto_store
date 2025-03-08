@@ -1,14 +1,16 @@
 /* ✅ Global Styles */
 body {
     font-family: 'Poppins', sans-serif;
-    background-color: #f8f9fa;
+    background-color: #f4f4f9; /* Softer gray for a modern look */
+    color: #333;
     margin: 0;
     padding: 0;
+    transition: background 0.3s ease-in-out;
 }
 
 /* ✅ Navigation Bar */
 .navbar {
-    background: linear-gradient(135deg, #007bff, #0056b3);
+    background: linear-gradient(135deg, #0056b3, #003d80);
     padding: 15px 30px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
     position: fixed;
@@ -51,16 +53,10 @@ body {
     transform: scale(1.05);
 }
 
-.cart-link {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
 .signup-btn {
     background: white;
-    color: #007bff;
-    padding: 8px 12px;
+    color: #0056b3;
+    padding: 10px 15px;
     border-radius: 20px;
     font-weight: bold;
     transition: all 0.3s ease-in-out;
@@ -78,9 +74,9 @@ body {
     align-items: center;
     height: 80vh;
     text-align: center;
-    background: url('{% static "images/hero-bg.jpg" %}') center/cover no-repeat;
-    color: white;
-    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+    background: url('../images/hero-bg.jpg') center/cover no-repeat;
+    color: rgba(144, 184, 70, 0.678);
+    text-shadow: 2px 2px 8px rgba(199, 190, 190, 0.7);
 }
 
 .hero-content h1 {
@@ -100,15 +96,15 @@ body {
     padding: 12px 25px;
     font-size: 1.2em;
     font-weight: bold;
-    background-color: white;
-    color: #007bff;
+    background-color: #ff6600;
+    color: white;
     border-radius: 30px;
     text-decoration: none;
     transition: all 0.3s ease-in-out;
 }
 
 .shop-now-btn:hover {
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: #e65c00;
     transform: scale(1.1);
 }
 
@@ -121,7 +117,7 @@ body {
 .featured-products h2 {
     font-size: 2.5em;
     font-weight: bold;
-    color: #007bff;
+    color: #003d80;
     margin-bottom: 20px;
 }
 
@@ -181,12 +177,12 @@ body {
 }
 
 .view-details-btn {
-    background-color: #007bff;
+    background-color: #003d80;
     color: white;
 }
 
 .add-to-cart-btn {
-    background-color: #28a745;
+    background-color: #ff6600;
     color: white;
 }
 

@@ -1,7 +1,8 @@
-/* ✅ Advanced General Page Styling */
+/* ✅ General Page Styling */
 body {
   font-family: 'Poppins', sans-serif;
-  background-color: #f8f9fa;
+  background-color: #f4f4f9;  /* Soft light gray for a clean look */
+  color: #333;  /* Dark gray text for better readability */
   margin: 0;
   padding: 0;
   transition: background 0.3s ease-in-out;
@@ -9,7 +10,7 @@ body {
 
 /* ✅ Navigation Bar */
 .navbar {
-  background-color: #007bff;
+  background: linear-gradient(135deg, #0056b3, #003d80); /* Darker blue for depth */
   padding: 15px 5%;
   display: flex;
   justify-content: space-between;
@@ -18,7 +19,7 @@ body {
   top: 0;
   width: 90%;
   z-index: 1000;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
   transition: background-color 0.3s ease-in-out;
 }
 
@@ -53,7 +54,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.5); /* Darker overlay for readability */
   z-index: 1;
 }
 
@@ -65,7 +66,7 @@ body {
 .hero h1 {
   font-size: 3em;
   margin-bottom: 15px;
-  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.6);
   animation: fadeIn 1s ease-in-out;
 }
 
@@ -75,9 +76,10 @@ body {
   animation: fadeIn 1.5s ease-in-out;
 }
 
+/* ✅ Button Styling */
 .shop-now-btn {
   display: inline-block;
-  background-color: #28a745;
+  background-color: #ff6600; /* Bright orange for contrast */
   color: white;
   padding: 14px 25px;
   border-radius: 50px;
@@ -89,7 +91,7 @@ body {
 }
 
 .shop-now-btn:hover {
-  background-color: #218838;
+  background-color: #e65c00; /* Slightly darker shade */
   transform: scale(1.1);
 }
 
@@ -104,7 +106,7 @@ body {
 .featured-products h2 {
   font-size: 2.5em;
   margin-bottom: 25px;
-  color: #007bff;
+  color: #004080; /* Deep blue for elegance */
 }
 
 .product-grid {
@@ -161,33 +163,33 @@ body {
 }
 
 .view-details-btn {
-  background-color: #007bff;
+  background-color: #004080; /* Deep blue */
 }
 
 .view-details-btn:hover {
-  background-color: #0056b3;
+  background-color: #002855; /* Darker blue */
   transform: scale(1.1);
 }
 
 .add-to-cart-btn {
-  background-color: #28a745;
+  background-color: #ff6600; /* Bright orange */
 }
 
 .add-to-cart-btn:hover {
-  background-color: #218838;
+  background-color: #e65c00;
   transform: scale(1.1);
 }
 
 /* ✅ Footer */
 .footer {
-  background-color: #343a40;
+  background-color: #222;
   color: white;
   text-align: center;
   padding: 20px;
   font-size: 1.1em;
   font-weight: 500;
   margin-top: 60px;
-  box-shadow: 0px -5px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px -5px 15px rgba(0, 0, 0, 0.2);
 }
 
 /* ✅ Animations */
