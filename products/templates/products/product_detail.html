@@ -13,7 +13,7 @@
     <nav class="navbar">
         <a href="{% url 'homepage' %}">Home</a>
         <a href="{% url 'product_list' %}">Shop</a>
-        <a href="{% url 'cart_view' %}">Cart 🛒</a>
+        <a href="{% url 'cart_view' %}">Cart </a>
     </nav>
 
     <!-- ✅ Product Detail Section -->
@@ -27,7 +27,7 @@
             <p class="product-description">{{ product.description }}</p>
             <h3 class="product-price">Price: <span>₹{{ product.price }}</span></h3>
 
-            <a href="{% url 'add_to_cart' product.id %}" class="add-to-cart-btn">🛒 Add to Cart</a>
+            <a href="{% url 'add_to_cart' product.id %}" class="add-to-cart-btn"> Add to Cart</a>
         </div>
     </div>
 
