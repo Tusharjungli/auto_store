@@ -188,3 +188,29 @@ body {
 .empty-cart a:hover {
   text-decoration: underline;
 }
+
+/* ✅ Responsive Cart Page */
+@media screen and (max-width: 768px) {
+  .cart-table th, .cart-table td {
+      font-size: 14px;
+      padding: 8px;
+  }
+
+  .cart-table {
+      display: block;
+      overflow-x: auto;
+      white-space: nowrap;
+  }
+
+  .cart-summary {
+      text-align: center;
+      font-size: 1.2em;
+  }
+
+  .checkout-btn {
+      width: 100%;
+      padding: 12px;
+      font-size: 1.2em;
+  }
+}
+
