@@ -13,7 +13,11 @@
     <link rel="stylesheet" href="{% static 'css/cart.css' %}">
 
     <!-- ✅ FontAwesome for Icons -->
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+
+    <!-- ✅ jQuery for AJAX -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 
@@ -48,35 +52,83 @@
                 </thead>
                 <tbody>
                     {% for item in cart_items %}
-                        <tr>
+                        <tr data-product-id="{{ item.product.id }}">
                             <td class="cart-product">
                                 <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="cart-image">
                                 <span>{{ item.product.name }}</span>
                             </td>
                             <td class="cart-quantity">
-                                <form method="POST" action="{% url 'update_cart' item.product.id %}">
-                                    {% csrf_token %}
-                                    <input type="number" name="quantity" value="{{ item.quantity }}" min="1">
-                                    <button type="submit" class="update-btn">Update</button>
-                                </form>
+                                <input type="number" class="quantity-input" data-id="{{ item.product.id }}" 
+                                       value="{{ item.quantity }}" min="1">
+                                <button class="update-btn" data-id="{{ item.product.id }}">Update</button>
                             </td>
                             <td>₹{{ item.product.price }}</td>
-                            <td>₹{{ item.product.price|floatformat:2|add:item.quantity|floatformat:2 }}</td>
+                            <td class="product-total">₹{{ item.product.price|floatformat:2|add:item.quantity|floatformat:2 }}</td>
                             <td>
-                                <a href="{% url 'remove_from_cart' item.product.id %}" class="remove-btn">❌ Remove</a>
+                                <button class="remove-btn" data-id="{{ item.product.id }}">❌ Remove</button>
                             </td>
                         </tr>
                     {% endfor %}
                 </tbody>
             </table>
             <div class="cart-summary">
-                <h3>Total: ₹{{ total_price }}</h3>
+                <h3>Total: ₹<span id="cart-total">{{ total_price }}</span></h3>
                 <a href="#" class="checkout-btn">Proceed to Checkout</a>
             </div>
         {% else %}
             <p class="empty-cart">Your cart is empty. <a href="{% url 'product_list' %}">Shop Now</a></p>
         {% endif %}
     </div>
+
+    <!-- ✅ AJAX Script -->
+    <script>
+        $(document).ready(function () {
+            // ✅ Update quantity with AJAX
+            $(".update-btn").click(function () {
+                var productId = $(this).data("id");
+                var newQuantity = $("input[data-id='" + productId + "']").val();
+
+                $.ajax({
+                    url: "{% url 'update_cart' 0 %}".replace("0", productId),
+                    type: "POST",
+                    data: {
+                        'quantity': newQuantity,
+                        'csrfmiddlewaretoken': '{{ csrf_token }}'
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            // Update total price for the item
+                            $("tr[data-product-id='" + productId + "'] .product-total").text("₹" + response.item_total);
+                            // Update cart total
+                            $("#cart-total").text(response.cart_total);
+                        }
+                    }
+                });
+            });
+
+            // ✅ Remove item with AJAX
+            $(".remove-btn").click(function () {
+                var productId = $(this).data("id");
+
+                $.ajax({
+                    url: "{% url 'remove_from_cart' 0 %}".replace("0", productId),
+                    type: "POST",
+                    data: {
+                        'csrfmiddlewaretoken': '{{ csrf_token }}'
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            // Remove the item row
+                            $("tr[data-product-id='" + productId + "']").fadeOut(300, function () {
+                                $(this).remove();
+                                $("#cart-total").text(response.cart_total);
+                            });
+                        }
+                    }
+                });
+            });
+        });
+    </script>
 
 </body>
 </html>
