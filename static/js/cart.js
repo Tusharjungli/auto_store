@@ -1,4 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
+    fetchCartCount(); // ✅ Ensure the cart count loads on page load
+
     // ✅ Add to Cart (AJAX)
     document.querySelectorAll(".add-to-cart-btn").forEach(button => {
         button.addEventListener("click", function () {
@@ -70,7 +72,8 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(data => {
                 if (data.success) {
                     parent.remove();
-                    document.querySelector("#cart-total").innerText = `Total: ₹${data.cart_total}`;
+                    document.querySelector("#cart-total").textContent = `Total: ₹${data.cart_total}`;
+                    updateCartCount(data.cart_count);
                 }
             });
         });
@@ -90,11 +93,24 @@ document.addEventListener("DOMContentLoaded", function () {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                parent.querySelector(".item-total").innerText = `₹${data.item_total}`;
-                document.querySelector("#cart-total").innerText = `Total: ₹${data.cart_total}`;
+                parent.querySelector(".item-total").textContent = `₹${data.item_total}`;
+                document.querySelector("#cart-total").textContent = `Total: ₹${data.cart_total}`;
+                updateCartCount(data.cart_count);
             }
         })
         .catch(error => console.error("Error updating cart:", error));
+    }
+
+    // ✅ Function to Fetch Initial Cart Count
+    function fetchCartCount() {
+        fetch(`/cart/count/`) // 🔹 This API should return {"cart_count": X}
+            .then(response => response.json())
+            .then(data => {
+                if (data.cart_count !== undefined) {
+                    updateCartCount(data.cart_count);
+                }
+            })
+            .catch(error => console.error("Error fetching cart count:", error));
     }
 
     // ✅ Function to Get CSRF Token
@@ -102,8 +118,14 @@ document.addEventListener("DOMContentLoaded", function () {
         return document.querySelector("input[name=csrfmiddlewaretoken]").value;
     }
 
-    // ✅ Function to Update Cart Count (if needed)
+    // ✅ Function to Update Cart Count in Navbar
     function updateCartCount(count) {
-        document.querySelector("#cart-count").innerText = count;
+        let cartCountElement = document.querySelector("#cart-count");
+
+        if (cartCountElement) {
+            cartCountElement.textContent = count;
+        } else {
+            console.error("Cart count element not found!");
+        }
     }
 });

@@ -24,10 +24,11 @@ def add_to_cart(request, product_id):
         cart_item.quantity += 1
         cart_item.save()
 
+    # ✅ Fetch updated cart count
+    cart_count = sum(item.quantity for item in cart.items.all())
+
     # ✅ Return JSON response for AJAX requests
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-        cart_items = cart.items.all()
-        cart_count = sum(item.quantity for item in cart_items)
         return JsonResponse({"success": True, "cart_count": cart_count})
 
     return redirect("cart_view")
@@ -49,11 +50,13 @@ def update_cart(request, product_id):
         except ValueError:
             return JsonResponse({"success": False, "error": "Invalid quantity"}, status=400)
 
+        # ✅ Fetch updated cart data
         cart_items = cart.items.all()
         total_price = sum(item.product.price * item.quantity for item in cart_items)
         item_total = cart_item.product.price * cart_item.quantity if new_quantity > 0 else 0
+        cart_count = sum(item.quantity for item in cart_items)
 
-        return JsonResponse({"success": True, "cart_total": total_price, "item_total": item_total})
+        return JsonResponse({"success": True, "cart_total": total_price, "item_total": item_total, "cart_count": cart_count})
 
     return JsonResponse({"success": False}, status=400)
 
@@ -65,9 +68,18 @@ def remove_from_cart(request, product_id):
         cart_item = get_object_or_404(CartItem, cart=cart, product_id=product_id)
         cart_item.delete()
 
+        # ✅ Fetch updated cart data
         cart_items = cart.items.all()
         total_price = sum(item.product.price * item.quantity for item in cart_items)
+        cart_count = sum(item.quantity for item in cart_items)
 
-        return JsonResponse({"success": True, "cart_total": total_price})
+        return JsonResponse({"success": True, "cart_total": total_price, "cart_count": cart_count})
 
     return JsonResponse({"success": False}, status=400)
+
+@login_required
+def get_cart_count(request):
+    """ ✅ Returns the total number of items in the cart for navbar """
+    cart, _ = Cart.objects.get_or_create(user=request.user)
+    cart_count = sum(item.quantity for item in cart.items.all())
+    return JsonResponse({"cart_count": cart_count})
