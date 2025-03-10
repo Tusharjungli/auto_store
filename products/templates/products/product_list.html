@@ -16,29 +16,6 @@
         <a href="{% url 'cart_view' %}">Cart</a>
     </nav>
 
-    <!-- ✅ Search & Filter Form -->
-    <div class="filter-container">
-        <form method="GET" action="{% url 'product_list' %}">
-            <!-- ✅ Search by Name -->
-            <input type="text" name="q" placeholder="Search products..." value="{{ search_query }}">
-
-            <!-- ✅ Filter by Category -->
-            <select name="category">
-                <option value="">All Categories</option>
-                <option value="electronics" {% if category_filter == "electronics" %}selected{% endif %}>Electronics</option>
-                <option value="clothing" {% if category_filter == "clothing" %}selected{% endif %}>Clothing</option>
-                <option value="accessories" {% if category_filter == "accessories" %}selected{% endif %}>Accessories</option>
-            </select>
-
-            <!-- ✅ Filter by Price -->
-            <input type="number" name="min_price" placeholder="Min ₹" value="{{ min_price }}">
-            <input type="number" name="max_price" placeholder="Max ₹" value="{{ max_price }}">
-
-            <!-- ✅ Submit Button -->
-            <button type="submit">Apply Filters</button>
-        </form>
-    </div>
-
     <!-- ✅ Product List Section -->
     <div class="container">
         <h2 class="section-title">Available Products</h2>
