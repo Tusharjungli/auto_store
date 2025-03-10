@@ -7,7 +7,7 @@ from .models import Cart, CartItem
 @login_required
 def cart_view(request):
     """ ✅ Displays the user's shopping cart """
-    cart, created = Cart.objects.get_or_create(user=request.user)
+    cart, _ = Cart.objects.get_or_create(user=request.user)
     cart_items = cart.items.all()
     total_price = sum(item.product.price * item.quantity for item in cart_items)
 
@@ -15,17 +15,20 @@ def cart_view(request):
 
 @login_required
 def add_to_cart(request, product_id):
-    """ ✅ Adds a product to the shopping cart with AJAX """
+    """ ✅ Adds a product to the shopping cart via AJAX or redirect """
     product = get_object_or_404(Product, id=product_id)
-    cart, created = Cart.objects.get_or_create(user=request.user)
-    
+    cart, _ = Cart.objects.get_or_create(user=request.user)
+
     cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product)
     if not created:
-        cart_item.quantity += 1  # ✅ If item already exists, increase quantity
-    cart_item.save()
+        cart_item.quantity += 1
+        cart_item.save()
 
+    # ✅ Return JSON response for AJAX requests
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-        return JsonResponse({"success": True, "cart_count": cart.items.count()})
+        cart_items = cart.items.all()
+        cart_count = sum(item.quantity for item in cart_items)
+        return JsonResponse({"success": True, "cart_count": cart_count})
 
     return redirect("cart_view")
 
@@ -36,14 +39,16 @@ def update_cart(request, product_id):
         cart = get_object_or_404(Cart, user=request.user)
         cart_item = get_object_or_404(CartItem, cart=cart, product_id=product_id)
 
-        new_quantity = int(request.POST.get("quantity", 1))
-        if new_quantity > 0:
-            cart_item.quantity = new_quantity
-            cart_item.save()
-        else:
-            cart_item.delete()
+        try:
+            new_quantity = int(request.POST.get("quantity", 1))
+            if new_quantity > 0:
+                cart_item.quantity = new_quantity
+                cart_item.save()
+            else:
+                cart_item.delete()
+        except ValueError:
+            return JsonResponse({"success": False, "error": "Invalid quantity"}, status=400)
 
-        # ✅ Recalculate totals
         cart_items = cart.items.all()
         total_price = sum(item.product.price * item.quantity for item in cart_items)
         item_total = cart_item.product.price * cart_item.quantity if new_quantity > 0 else 0
@@ -60,7 +65,6 @@ def remove_from_cart(request, product_id):
         cart_item = get_object_or_404(CartItem, cart=cart, product_id=product_id)
         cart_item.delete()
 
-        # ✅ Recalculate cart total
         cart_items = cart.items.all()
         total_price = sum(item.product.price * item.quantity for item in cart_items)
 

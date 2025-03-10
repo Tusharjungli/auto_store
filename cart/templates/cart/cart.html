@@ -20,23 +20,20 @@
             </thead>
             <tbody>
                 {% for item in cart_items %}
-                <tr id="cart-item-{{ item.product.id }}">
+                <tr id="cart-item-{{ item.product.id }}" data-product-id="{{ item.product.id }}">
                     <td>{{ item.product.name }}</td>
                     <td>
-                        <label for="quantity-{{ item.product.id }}" class="visually-hidden">Quantity</label>
-                        <input type="number" id="quantity-{{ item.product.id }}" class="cart-item-quantity" 
-                               data-product-id="{{ item.product.id }}" 
-                               value="{{ item.quantity }}" min="1"
-                               title="Enter quantity"
-                               placeholder="Qty">
+                        <div class="quantity-controls">
+                            <button class="decrease-btn">-</button>
+                            <input type="number" id="quantity-{{ item.product.id }}" class="cart-item-quantity" 
+                                   value="{{ item.quantity }}" min="1">
+                            <button class="increase-btn">+</button>
+                        </div>
                     </td>
                     <td>₹{{ item.product.price }}</td>
-                    <td id="item-total-{{ item.product.id }}">₹{{ item.total_price }}</td>
+                    <td class="item-total">₹{{ item.total_price }}</td>
                     <td>
-                        <button class="remove-from-cart-btn" 
-                                data-product-id="{{ item.product.id }}">
-                            ❌ Remove
-                        </button>
+                        <button class="remove-from-cart-btn">❌ Remove</button>
                     </td>
                 </tr>
                 {% endfor %}
@@ -47,8 +44,7 @@
     {% else %}
         <p>Your cart is empty.</p>
     {% endif %}
-
-    <!-- CSRF Token for AJAX -->
+    
     <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
 </div>
 
