@@ -15,7 +15,7 @@ def cart_view(request):
 
 @login_required
 def add_to_cart(request, product_id):
-    """ ✅ Adds a product to the shopping cart """
+    """ ✅ Adds a product to the shopping cart with AJAX """
     product = get_object_or_404(Product, id=product_id)
     cart, created = Cart.objects.get_or_create(user=request.user)
     
@@ -23,6 +23,9 @@ def add_to_cart(request, product_id):
     if not created:
         cart_item.quantity += 1  # ✅ If item already exists, increase quantity
     cart_item.save()
+
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return JsonResponse({"success": True, "cart_count": cart.items.count()})
 
     return redirect("cart_view")
 

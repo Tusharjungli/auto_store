@@ -1,134 +1,58 @@
+{% extends "base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shopping Cart - Auto Store</title>
 
-    <!-- ✅ Google Fonts - Poppins -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    
-    <!-- ✅ CSS File -->
-    <link rel="stylesheet" href="{% static 'css/cart.css' %}">
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/cart.css' %}">
 
-    <!-- ✅ FontAwesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<div class="cart-container">
+    <h2>Your Shopping Cart</h2>
 
+    {% if cart_items %}
+        <table class="cart-table">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart_items %}
+                <tr id="cart-item-{{ item.product.id }}">
+                    <td>{{ item.product.name }}</td>
+                    <td>
+                        <label for="quantity-{{ item.product.id }}" class="visually-hidden">Quantity</label>
+                        <input type="number" id="quantity-{{ item.product.id }}" class="cart-item-quantity" 
+                               data-product-id="{{ item.product.id }}" 
+                               value="{{ item.quantity }}" min="1"
+                               title="Enter quantity"
+                               placeholder="Qty">
+                    </td>
+                    <td>₹{{ item.product.price }}</td>
+                    <td id="item-total-{{ item.product.id }}">₹{{ item.total_price }}</td>
+                    <td>
+                        <button class="remove-from-cart-btn" 
+                                data-product-id="{{ item.product.id }}">
+                            ❌ Remove
+                        </button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 
-    <!-- ✅ jQuery for AJAX -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-</head>
-<body>
+        <h3 id="cart-total">Total: ₹{{ total_price }}</h3>
+    {% else %}
+        <p>Your cart is empty.</p>
+    {% endif %}
 
-    <!-- ✅ Navigation Bar -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="{% url 'homepage' %}" class="logo">Auto Store</a>
-            <div class="nav-links">
-                <a href="{% url 'homepage' %}" class="nav-item">Home</a>
-                <a href="{% url 'product_list' %}" class="nav-item">Shop</a>
-                <a href="{% url 'cart_view' %}" class="nav-item active">
-                    Cart <i class="fas fa-shopping-cart"></i>
-                </a>
-            </div>
-        </div>
-    </nav>
+    <!-- CSRF Token for AJAX -->
+    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+</div>
 
-    <!-- ✅ Cart Section -->
-    <div class="cart-container">
-        <h2>Your Shopping Cart</h2>
+<!-- Link JavaScript -->
+<script src="{% static 'js/cart.js' %}" defer></script>
 
-        {% if cart_items %}
-            <table class="cart-table">
-                <thead>
-                    <tr>
-                        <th>Product</th>
-                        <th>Quantity</th>
-                        <th>Price</th>
-                        <th>Total</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for item in cart_items %}
-                        <tr data-product-id="{{ item.product.id }}">
-                            <td class="cart-product">
-                                <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="cart-image">
-                                <span>{{ item.product.name }}</span>
-                            </td>
-                            <td class="cart-quantity">
-                                <input type="number" class="quantity-input" data-id="{{ item.product.id }}" 
-                                       value="{{ item.quantity }}" min="1">
-                                <button class="update-btn" data-id="{{ item.product.id }}">Update</button>
-                            </td>
-                            <td>₹{{ item.product.price }}</td>
-                            <td class="product-total">₹{{ item.product.price|floatformat:2|add:item.quantity|floatformat:2 }}</td>
-                            <td>
-                                <button class="remove-btn" data-id="{{ item.product.id }}">❌ Remove</button>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            <div class="cart-summary">
-                <h3>Total: ₹<span id="cart-total">{{ total_price }}</span></h3>
-                <a href="#" class="checkout-btn">Proceed to Checkout</a>
-            </div>
-        {% else %}
-            <p class="empty-cart">Your cart is empty. <a href="{% url 'product_list' %}">Shop Now</a></p>
-        {% endif %}
-    </div>
-
-    <!-- ✅ AJAX Script -->
-    <script>
-        $(document).ready(function () {
-            // ✅ Update quantity with AJAX
-            $(".update-btn").click(function () {
-                var productId = $(this).data("id");
-                var newQuantity = $("input[data-id='" + productId + "']").val();
-
-                $.ajax({
-                    url: "{% url 'update_cart' 0 %}".replace("0", productId),
-                    type: "POST",
-                    data: {
-                        'quantity': newQuantity,
-                        'csrfmiddlewaretoken': '{{ csrf_token }}'
-                    },
-                    success: function (response) {
-                        if (response.success) {
-                            // Update total price for the item
-                            $("tr[data-product-id='" + productId + "'] .product-total").text("₹" + response.item_total);
-                            // Update cart total
-                            $("#cart-total").text(response.cart_total);
-                        }
-                    }
-                });
-            });
-
-            // ✅ Remove item with AJAX
-            $(".remove-btn").click(function () {
-                var productId = $(this).data("id");
-
-                $.ajax({
-                    url: "{% url 'remove_from_cart' 0 %}".replace("0", productId),
-                    type: "POST",
-                    data: {
-                        'csrfmiddlewaretoken': '{{ csrf_token }}'
-                    },
-                    success: function (response) {
-                        if (response.success) {
-                            // Remove the item row
-                            $("tr[data-product-id='" + productId + "']").fadeOut(300, function () {
-                                $(this).remove();
-                                $("#cart-total").text(response.cart_total);
-                            });
-                        }
-                    }
-                });
-            });
-        });
-    </script>
-
-</body>
-</html>
+{% endblock %}

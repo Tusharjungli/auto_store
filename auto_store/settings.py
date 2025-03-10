@@ -81,8 +81,10 @@ USE_I18N = True
 USE_TZ = True
 
 # ✅ Static Files (CSS, JS, Images)
-STATIC_URL = "/static/"
-STATICFILES_DIRS = [BASE_DIR / "static"]
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    BASE_DIR / "static",  # Ensure this exists
+]
 
 # ✅ Media Files (Uploaded Images)
 MEDIA_URL = "/media/"
@@ -92,3 +94,5 @@ MEDIA_ROOT = BASE_DIR / "media"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 LOGIN_URL = "/auth/login/"
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
