@@ -4,7 +4,7 @@
 /* ✅ Global Styles */
 body {
     font-family: 'Poppins', sans-serif;
-    background-color: #1a1a1a; /* Dark matte background */
+    background-color: #1a1a1a; /* Dark matte grey */
     color: #ddd; /* Light grey text */
     margin: 0;
     padding: 0;
@@ -13,7 +13,7 @@ body {
 
 /* ✅ Navigation Bar */
 .navbar {
-    background: linear-gradient(135deg, #002244, #001122);
+    background: linear-gradient(135deg, #004080, #001a33);
     padding: 15px 30px;
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.6);
     position: fixed;
@@ -23,31 +23,20 @@ body {
     z-index: 1000;
 }
 
-/* ✅ Navigation Container */
 .nav-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-wrap: wrap;
-    padding: 0 20px;
 }
 
-/* ✅ Logo */
 .logo {
-    color: #ffcc00;
-    font-size: 1.8em;
+    color: #ffcc00; /* Sporty yellow */
+    font-size: 2em;
     font-weight: 700;
     text-decoration: none;
-    letter-spacing: 2px;
-    transition: all 0.3s ease-in-out;
+    letter-spacing: 3px;
 }
 
-.logo:hover {
-    color: #ffaa00;
-    transform: scale(1.05);
-}
-
-/* ✅ Navigation Links */
 .nav-links {
     display: flex;
     gap: 20px;
@@ -64,59 +53,47 @@ body {
 }
 
 .nav-item:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-    transform: scale(1.05);
-}
-
-/* ✅ Mobile Navigation Toggle */
-.menu-toggle {
-    display: none;
-    font-size: 1.8em;
-    background: none;
-    border: none;
-    color: white;
-    cursor: pointer;
-    padding: 10px;
-    transition: transform 0.3s ease-in-out;
-}
-
-.menu-toggle:focus {
-    outline: none;
+    background-color: rgba(255, 255, 255, 0.15);
+    transform: scale(1.08);
 }
 
 /* ✅ Buttons */
 .btn {
     display: inline-block;
-    padding: 12px 24px;
-    font-size: 1.1em;
+    padding: 12px 20px;
+    font-size: 1em;
     font-weight: bold;
     text-align: center;
     text-decoration: none;
     border-radius: 30px;
+    border: 2px solid transparent;
     transition: all 0.3s ease-in-out;
     cursor: pointer;
-    border: none;
 }
 
-/* ✅ Primary Button */
 .btn-primary {
     background: #ff6600;
     color: white;
+    border-color: #ff6600;
 }
 
 .btn-primary:hover {
-    background: #e65c00;
+    background: transparent;
+    color: #ff6600;
+    border-color: #ff6600;
     transform: scale(1.1);
 }
 
-/* ✅ Secondary Button */
 .btn-secondary {
-    background: #004080;
+    background: #0066cc;
     color: white;
+    border-color: #0066cc;
 }
 
 .btn-secondary:hover {
-    background: #003366;
+    background: transparent;
+    color: #0066cc;
+    border-color: #0066cc;
 }
 
 /* ✅ Hero Section */
@@ -126,23 +103,16 @@ body {
     align-items: center;
     height: 80vh;
     text-align: center;
-    background: url('/static/images/car-theme-bg.jpg') center/cover no-repeat;
-    color: #ffcc00; /* Sporty yellow */
-    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
-}
-
-/* ✅ Fix for Image Not Loading */
-.hero {
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+    background: url('../images/car-theme-bg.jpg') center/cover no-repeat;
+    color: #ffcc00;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
 }
 
 .hero-content h1 {
-    font-size: 3.2em;
+    font-size: 3.5em;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 3px;
     margin-bottom: 15px;
 }
 
@@ -224,56 +194,24 @@ body {
     letter-spacing: 1px;
 }
 
-/* ✅ Mobile Responsiveness */
-@media (max-width: 768px) {
-    .nav-container {
-        flex-direction: column;
-        align-items: center;
-        position: relative;
-    }
+/* ✅ Modern Button Animation */
+@keyframes buttonPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
 
-    .menu-toggle {
-        display: block;
-        position: absolute;
-        top: 15px;
-        right: 20px;
-    }
+.btn-animated {
+    animation: buttonPulse 1s infinite ease-in-out;
+}
 
-    .nav-links {
-        display: flex;
-        flex-direction: column;
-        position: absolute;
-        top: 60px;
-        left: -100%; /* Initially hidden */
-        width: 100%;
-        background: rgba(0, 0, 0, 0.9);
-        padding: 15px 0;
-        text-align: center;
-        transition: left 0.4s ease-in-out;
-    }
+/* ✅ Smooth Page Fade-in */
+body {
+    opacity: 0;
+    animation: fadeIn 0.5s ease-in forwards;
+}
 
-    .nav-links.active {
-        left: 0; /* Slide in effect */
-    }
-
-    .nav-item {
-        padding: 10px 0;
-        font-size: 1.2em;
-    }
-
-    .hero {
-        height: 70vh;
-    }
-
-    .hero-content h1 {
-        font-size: 2.5em;
-    }
-
-    .hero-content p {
-        font-size: 1.2em;
-    }
-
-    .product-grid {
-        grid-template-columns: 1fr;
-    }
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
