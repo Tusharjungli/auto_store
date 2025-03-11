@@ -1,77 +1,148 @@
-/* General Styles */
+/* ✅ Import Poppins Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+/* ✅ Global Styles */
 body {
-  font-family: Arial, sans-serif;
-  background-color: #f8f9fa;
+  font-family: 'Poppins', sans-serif;
+  background-color: #1a1a1a; /* Dark Matte Background */
+  color: #ddd;
+  margin: 0;
+  padding: 0;
   text-align: center;
 }
 
-/* Cart Container */
+/* ✅ Cart Container */
 .cart-container {
-  width: 80%;
-  margin: auto;
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  width: 85%;
+  max-width: 1000px;
+  margin: 100px auto 40px; /* Added margin-top to avoid overlap with navbar */
+  background: #222; /* Match product card */
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.4);
 }
 
-/* Table Styling */
+/* ✅ Cart Title */
+.cart-container h2 {
+  font-size: 2.5em;
+  font-weight: bold;
+  color: #ffcc00; /* Sporty Yellow */
+  text-transform: uppercase;
+  margin-bottom: 15px;
+}
+
+/* ✅ Cart Table */
 .cart-table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
-  background: white;
+  background: #333;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
 th, td {
-  padding: 12px;
-  border: 1px solid #ddd;
+  padding: 14px;
+  border: 1px solid #444;
   text-align: center;
 }
 
+/* ✅ Table Header */
 th {
-  background-color: #343a40;
+  background: linear-gradient(135deg, #002244, #001122); /* Dark blue gradient */
   color: white;
+  font-weight: bold;
+  text-transform: uppercase;
 }
 
-/* Quantity Input */
+/* ✅ Table Rows */
+td {
+  color: #ddd;
+  font-size: 1.2em;
+}
+
+/* ✅ Quantity Input */
 input[type="number"] {
-  width: 50px;
+  width: 60px;
   text-align: center;
-  padding: 5px;
-  border: 1px solid #ccc;
+  padding: 8px;
+  border: 1px solid #555;
+  background: #222;
+  color: #ffcc00;
   border-radius: 5px;
+  font-size: 1em;
+  transition: all 0.3s ease-in-out;
 }
 
-/* Remove Button */
+input[type="number"]:focus {
+  border-color: #ffcc00;
+  outline: none;
+}
+
+/* ✅ Remove Button */
 .remove-from-cart-btn {
-  background-color: #dc3545;
+  background: #dc3545;
   color: white;
   border: none;
-  padding: 5px 10px;
+  padding: 8px 12px;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 8px;
+  font-size: 1em;
+  transition: all 0.3s ease-in-out;
 }
 
 .remove-from-cart-btn:hover {
-  background-color: #c82333;
+  background: #c82333;
+  transform: scale(1.05);
 }
 
-/* Total Section */
+/* ✅ Cart Total */
 #cart-total {
-  font-size: 24px;
+  font-size: 1.8em;
   font-weight: bold;
   margin-top: 20px;
+  color: #ffcc00;
 }
 
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  border: 0;
+/* ✅ Checkout Button */
+.checkout-btn {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 12px 25px;
+  font-size: 1.2em;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 30px;
+  transition: all 0.3s ease-in-out;
+  background: #ff6600; /* Orange primary button */
+  color: white;
+  border: none;
+  cursor: pointer;
 }
 
+.checkout-btn:hover {
+  background: #e65c00;
+  transform: scale(1.1);
+}
+
+/* ✅ Responsive Design */
+@media (max-width: 768px) {
+  .cart-container {
+    width: 95%;
+    padding: 20px;
+  }
+
+  .cart-table {
+    font-size: 0.9em;
+  }
+
+  th, td {
+    padding: 10px;
+  }
+
+  input[type="number"] {
+    width: 50px;
+    padding: 6px;
+  }
+}
