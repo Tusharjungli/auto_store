@@ -15,20 +15,20 @@
 
     <!-- ✅ Featured Products Section -->
     <section class="featured-products">
-        <h2>Featured Products</h2>
+        <h2 class="section-title">Featured Products</h2>
         <div class="product-grid">
             {% for product in featured_products %}
                 <div class="product-card">
                     <img src="{{ product.image.url }}" alt="{{ product.name }}">
-                    <h3>{{ product.name }}</h3>
-                    <p>₹{{ product.price }}</p>
+                    <h3 class="product-name">{{ product.name }}</h3>
+                    <p class="product-price">₹{{ product.price }}</p>
                     <div class="product-buttons">
                         <a href="{% url 'product_detail' product.id %}" class="btn btn-secondary">View Details</a>
                         <a href="{% url 'add_to_cart' product.id %}" class="btn btn-primary">Add to Cart</a>
                     </div>
                 </div>
             {% empty %}
-                <p>No featured products available.</p>
+                <p class="no-products">No featured products available.</p>
             {% endfor %}
         </div>
     </section>

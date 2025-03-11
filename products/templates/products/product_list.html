@@ -1,35 +1,27 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Products - Auto Store</title>
-    <link rel="stylesheet" href="{% static 'css/product.css' %}">
-</head>
-<body>
 
-    <!-- ✅ Navigation Bar -->
-    <nav class="navbar">
-        <a href="{% url 'homepage' %}">Home</a>
-        <a href="{% url 'product_list' %}" class="active">Shop</a>
-        <a href="{% url 'cart_view' %}">Cart</a>
-    </nav>
+{% block title %}Products - Auto Store{% endblock %}
 
-    <!-- ✅ Product List Section -->
+{% block content %}
     <div class="container">
         <h2 class="section-title">Available Products</h2>
 
         <div class="product-grid">
             {% for product in products %}
                 <div class="product-card">
-                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-thumbnail">
+                    {% if product.image %}
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-thumbnail">
+                    {% else %}
+                        <img src="{% static 'images/default-product.jpg' %}" alt="No Image Available" class="product-thumbnail">
+                    {% endif %}
+                    
                     <h3 class="product-name">{{ product.name }}</h3>
                     <p class="product-price">₹{{ product.price }}</p>
 
                     <div class="product-buttons">
                         <a href="{% url 'product_detail' product.id %}" class="view-details-btn">View Details</a>
-                        <a href="{% url 'add_to_cart' product.id %}" class="add-to-cart-btn"> Add to Cart</a>
+                        <a href="{% url 'add_to_cart' product.id %}" class="add-to-cart-btn">Add to Cart</a>
                     </div>
                 </div>
             {% empty %}
@@ -37,6 +29,4 @@
             {% endfor %}
         </div>
     </div>
-
-</body>
-</html>
+{% endblock %}

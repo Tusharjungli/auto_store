@@ -156,3 +156,33 @@ body {
         grid-template-columns: 1fr;
     }
 }
+
+/* ✅ Make Product Page Match Light/Dark Mode */
+.light-mode .product-card {
+    background: #fff;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.light-mode .product-name {
+    color: #004080;
+}
+
+.light-mode .product-price {
+    color: #ff6600;
+}
+
+.light-mode .view-details-btn {
+    background: #0066cc;
+    color: white;
+}
+
+.light-mode .add-to-cart-btn {
+    background: #ff6600;
+    color: white;
+}
+
+.light-mode .view-details-btn:hover, 
+.light-mode .add-to-cart-btn:hover {
+    transform: scale(1.1);
+}
+

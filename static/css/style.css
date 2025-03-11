@@ -8,7 +8,13 @@ body {
     color: #ddd; /* Light grey text */
     margin: 0;
     padding: 0;
-    transition: background 0.3s ease-in-out;
+    transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+/* ✅ Light Mode */
+body.light-mode {
+    background-color: #f4f4f9; /* Light grey */
+    color: #333;
 }
 
 /* ✅ Navigation Bar */
@@ -21,6 +27,13 @@ body {
     top: 0;
     left: 0;
     z-index: 1000;
+    transition: background 0.3s ease-in-out;
+}
+
+/* ✅ Light Mode Navbar */
+body.light-mode .navbar {
+    background: linear-gradient(135deg, #ffffff, #dfe6e9);
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .nav-container {
@@ -35,6 +48,10 @@ body {
     font-weight: 700;
     text-decoration: none;
     letter-spacing: 3px;
+}
+
+body.light-mode .logo {
+    color: #ff6600;
 }
 
 .nav-links {
@@ -52,9 +69,17 @@ body {
     transition: all 0.3s ease-in-out;
 }
 
+body.light-mode .nav-item {
+    color: #333;
+}
+
 .nav-item:hover {
     background-color: rgba(255, 255, 255, 0.15);
     transform: scale(1.08);
+}
+
+body.light-mode .nav-item:hover {
+    background-color: rgba(0, 0, 0, 0.1);
 }
 
 /* ✅ Buttons */
@@ -77,11 +102,21 @@ body {
     border-color: #ff6600;
 }
 
+body.light-mode .btn-primary {
+    background: #ff4500;
+    border-color: #ff4500;
+}
+
 .btn-primary:hover {
     background: transparent;
     color: #ff6600;
     border-color: #ff6600;
     transform: scale(1.1);
+}
+
+body.light-mode .btn-primary:hover {
+    color: #ff4500;
+    border-color: #ff4500;
 }
 
 .btn-secondary {
@@ -90,10 +125,20 @@ body {
     border-color: #0066cc;
 }
 
+body.light-mode .btn-secondary {
+    background: #0044aa;
+    border-color: #0044aa;
+}
+
 .btn-secondary:hover {
     background: transparent;
     color: #0066cc;
     border-color: #0066cc;
+}
+
+body.light-mode .btn-secondary:hover {
+    color: #0044aa;
+    border-color: #0044aa;
 }
 
 /* ✅ Hero Section */
@@ -108,18 +153,8 @@ body {
     text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
 }
 
-.hero-content h1 {
-    font-size: 3.5em;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 3px;
-    margin-bottom: 15px;
-}
-
-.hero-content p {
-    font-size: 1.4em;
-    font-weight: 400;
-    letter-spacing: 1px;
+body.light-mode .hero {
+    color: #ff4500;
 }
 
 /* ✅ Featured Products */
@@ -135,6 +170,10 @@ body {
     text-transform: uppercase;
     letter-spacing: 2px;
     margin-bottom: 20px;
+}
+
+body.light-mode .featured-products h2 {
+    color: #0044aa;
 }
 
 .product-grid {
@@ -153,9 +192,18 @@ body {
     transition: transform 0.3s ease-in-out, box-shadow 0.3s;
 }
 
+body.light-mode .product-card {
+    background: #fff;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+}
+
 .product-card:hover {
     transform: scale(1.05);
     box-shadow: 0px 8px 18px rgba(0, 0, 0, 0.5);
+}
+
+body.light-mode .product-card:hover {
+    box-shadow: 0px 8px 18px rgba(0, 0, 0, 0.2);
 }
 
 .product-card img {
@@ -172,16 +220,18 @@ body {
     color: #ffcc00;
 }
 
+body.light-mode .product-card h3 {
+    color: #ff4500;
+}
+
 .product-card p {
     font-size: 1.2em;
     color: #bbb;
     margin-bottom: 15px;
 }
 
-.product-buttons {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
+body.light-mode .product-card p {
+    color: #555;
 }
 
 /* ✅ Footer */
@@ -194,15 +244,9 @@ body {
     letter-spacing: 1px;
 }
 
-/* ✅ Modern Button Animation */
-@keyframes buttonPulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-    100% { transform: scale(1); }
-}
-
-.btn-animated {
-    animation: buttonPulse 1s infinite ease-in-out;
+body.light-mode .footer {
+    background: #ddd;
+    color: #333;
 }
 
 /* ✅ Smooth Page Fade-in */
@@ -215,3 +259,96 @@ body {
     from { opacity: 0; }
     to { opacity: 1; }
 }
+
+/* ✅ Light/Dark Mode */
+.light-mode {
+    background-color: #f5f5f5;
+    color: #222;
+}
+
+.light-mode .navbar {
+    background: linear-gradient(135deg, #ffffff, #cccccc);
+}
+
+.light-mode .nav-item {
+    color: #222;
+}
+
+.light-mode .logo {
+    color: #004080;
+}
+
+.light-mode .product-card {
+    background: #fff;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.light-mode .footer {
+    background: #ddd;
+    color: #222;
+}
+
+/* ✅ Theme Toggle Button */
+.theme-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5em;
+    margin-left: 15px;
+    transition: transform 0.2s ease-in-out;
+    color: white;
+}
+
+/* ✅ Fix Positioning */
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.theme-toggle {
+    margin-left: auto; /* Moves icon next to nav items */
+}
+
+.theme-toggle:hover {
+    transform: scale(1.1);
+}
+
+/* ✅ Light Mode Styles */
+.light-mode {
+    background-color: #f5f5f5;
+    color: #222;
+}
+
+.light-mode .navbar {
+    background: linear-gradient(135deg, #ffffff, #cccccc);
+}
+
+.light-mode .nav-item {
+    color: #222;
+}
+
+.light-mode .logo {
+    color: #004080;
+}
+
+.light-mode .footer {
+    background: #ddd;
+    color: #222;
+}
+
+.theme-toggle:hover {
+    transform: scale(1.2);
+}
+
+.light-mode .theme-toggle {
+    color: #222; /* Dark color for light mode */
+}
+
+/* ✅ Aligning Theme Toggle Properly in Navbar */
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+

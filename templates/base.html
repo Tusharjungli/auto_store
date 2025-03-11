@@ -6,11 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Auto Spare Parts{% endblock %}</title>
 
-    <!-- ✅ Fix for FontAwesome CORS issue -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
     <!-- ✅ Main CSS -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/product.css' %}"> <!-- Ensure product page uses the theme -->
+
+    <!-- ✅ Light/Dark Mode Script -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const currentTheme = localStorage.getItem("theme") || "dark";
+            document.body.classList.toggle("light-mode", currentTheme === "light");
+            document.getElementById("theme-icon").textContent = currentTheme === "light" ? "🌞" : "🌙";
+        });
+
+        function toggleTheme() {
+            const isLightMode = document.body.classList.toggle("light-mode");
+            localStorage.setItem("theme", isLightMode ? "light" : "dark");
+            document.getElementById("theme-icon").textContent = isLightMode ? "🌞" : "🌙";
+        }
+    </script>
 </head>
 <body>
     <header>
@@ -27,6 +40,11 @@
                     {% else %}
                         <a href="{% url 'login' %}" class="nav-item">Login</a>
                     {% endif %}
+
+                    <!-- ✅ Fixed Theme Toggle Position -->
+                    <button class="theme-toggle" onclick="toggleTheme()">
+                        <span id="theme-icon">🌙</span>
+                    </button>
                 </div>
             </div>
         </nav>

@@ -1,25 +1,16 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ product.name }} - Auto Store</title>
-    <link rel="stylesheet" href="{% static 'css/product.css' %}">
-</head>
-<body>
 
-    <!-- ✅ Navigation Bar -->
-    <nav class="navbar">
-        <a href="{% url 'homepage' %}">Home</a>
-        <a href="{% url 'product_list' %}">Shop</a>
-        <a href="{% url 'cart_view' %}">Cart </a>
-    </nav>
+{% block title %}{{ product.name }} - Auto Store{% endblock %}
 
-    <!-- ✅ Product Detail Section -->
+{% block content %}
     <div class="product-detail-container">
         <div class="product-image-container">
-            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
+            {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
+            {% else %}
+                <img src="{% static 'images/default-product.jpg' %}" alt="No Image Available" class="product-image">
+            {% endif %}
         </div>
 
         <div class="product-info">
@@ -27,9 +18,7 @@
             <p class="product-description">{{ product.description }}</p>
             <h3 class="product-price">Price: <span>₹{{ product.price }}</span></h3>
 
-            <a href="{% url 'add_to_cart' product.id %}" class="add-to-cart-btn"> Add to Cart</a>
+            <a href="{% url 'add_to_cart' product.id %}" class="add-to-cart-btn">Add to Cart</a>
         </div>
     </div>
-
-</body>
-</html>
+{% endblock %}
