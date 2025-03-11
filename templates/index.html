@@ -1,48 +1,15 @@
+{% extends "base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Auto Store - Home</title>
-    
-    <!-- ✅ Google Fonts - Poppins -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    
-    <!-- ✅ CSS File -->
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    
-    <!-- ✅ FontAwesome for Icons -->
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-</head>
-<body>
 
-    <!-- ✅ Navigation Bar -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="{% url 'homepage' %}" class="logo">Auto Store</a>
-            <div class="nav-links">
-                <a href="{% url 'homepage' %}" class="nav-item">Home</a>
-                <a href="{% url 'product_list' %}" class="nav-item">Shop</a>
-                <a href="{% url 'cart_view' %}" class="nav-item cart-link">
-                    Cart <i class="fas fa-shopping-cart"></i>
-                </a>
-                {% if user.is_authenticated %}
-                    <a href="{% url 'logout' %}" class="nav-item">Logout</a>
-                {% else %}
-                    <a href="{% url 'login' %}" class="nav-item">Login</a>
-                    <a href="{% url 'signup' %}" class="signup-btn">Sign Up</a>
-                {% endif %}
-            </div>
-        </div>
-    </nav>
+{% block title %}Auto Store - Home{% endblock %}
 
+{% block content %}
     <!-- ✅ Hero Section -->
     <section class="hero">
         <div class="hero-content">
             <h1>Welcome to Auto Store</h1>
             <p>Your one-stop shop for automobile spare parts</p>
-            <a href="{% url 'product_list' %}" class="shop-now-btn">Shop Now</a>
+            <a href="{% url 'product_list' %}" class="btn btn-primary">Shop Now</a>
         </div>
     </section>
 
@@ -56,8 +23,8 @@
                     <h3>{{ product.name }}</h3>
                     <p>₹{{ product.price }}</p>
                     <div class="product-buttons">
-                        <a href="{% url 'product_detail' product.id %}" class="view-details-btn">View Details</a>
-                        <a href="{% url 'add_to_cart' product.id %}" class="add-to-cart-btn">Add to Cart</a>
+                        <a href="{% url 'product_detail' product.id %}" class="btn btn-secondary">View Details</a>
+                        <a href="{% url 'add_to_cart' product.id %}" class="btn btn-primary">Add to Cart</a>
                     </div>
                 </div>
             {% empty %}
@@ -65,11 +32,4 @@
             {% endfor %}
         </div>
     </section>
-
-    <!-- ✅ Footer -->
-    <footer class="footer">
-        <p>&copy; 2025 Auto Store. All rights reserved.</p>
-    </footer>
-
-</body>
-</html>
+{% endblock %}

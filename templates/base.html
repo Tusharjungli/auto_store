@@ -5,21 +5,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Auto Spare Parts{% endblock %}</title>
+
+    <!-- ✅ Main CSS -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
     <header>
-        <nav>
-            <a href="{% url 'index' %}">Home</a>
-            <a href="{% url 'product_list' %}">Products</a>
-            <a href="{% url 'cart_view' %}">
-                🛒 Cart (<span id="cart-count">{{ cart_count }}</span>)
-            </a>
-            {% if user.is_authenticated %}
-                <a href="{% url 'logout' %}">Logout</a>
-            {% else %}
-                <a href="{% url 'login' %}">Login</a>
-            {% endif %}
+        <nav class="navbar">
+            <div class="nav-container">
+                <a href="{% url 'index' %}" class="logo">AutoParts</a>
+                
+                <!-- ✅ Mobile Menu Toggle Button -->
+                <button class="menu-toggle" aria-label="Toggle menu">☰</button>
+
+                <!-- ✅ Navigation Links -->
+                <div class="nav-links">
+                    <a href="{% url 'product_list' %}" class="nav-item">Products</a>
+                    <a href="{% url 'cart_view' %}" class="nav-item">
+                        🛒 Cart (<span id="cart-count">{{ cart_count }}</span>)
+                    </a>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'logout' %}" class="nav-item">Logout</a>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="nav-item">Login</a>
+                    {% endif %}
+                </div>
+            </div>
         </nav>
     </header>
 
@@ -27,8 +38,20 @@
         {% block content %}{% endblock %}
     </main>
 
-    <footer>
+    <footer class="footer">
         <p>&copy; 2025 Auto Spare Parts. All rights reserved.</p>
     </footer>
+
+    <!-- ✅ JavaScript for Mobile Menu Toggle -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const menuToggle = document.querySelector(".menu-toggle");
+            const navLinks = document.querySelector(".nav-links");
+
+            menuToggle.addEventListener("click", function () {
+                navLinks.classList.toggle("active");
+            });
+        });
+    </script>
 </body>
 </html>
