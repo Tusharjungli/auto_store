@@ -186,3 +186,164 @@ body {
     transform: scale(1.1);
 }
 
+/* ✅ Product Reviews Section */
+.reviews-container {
+    margin-top: 40px;
+    padding: 20px;
+    background: #222; /* Matte dark background */
+    border-radius: 12px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.reviews-container h3 {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #ffcc00; /* Sporty Yellow */
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+/* ✅ Review List */
+.review-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+.review-item {
+    padding: 15px;
+    border-radius: 10px;
+    background: #1a1a1a; /* Slightly darker than container */
+    margin-bottom: 12px;
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.3);
+}
+
+.review-author {
+    font-weight: bold;
+    color: #ffcc00; /* Yellow for contrast */
+}
+
+.review-rating {
+    color: #ff6600; /* Sporty Orange */
+    font-size: 1.2em;
+    margin-left: 8px;
+}
+
+.review-comment {
+    margin: 8px 0;
+    font-size: 1.1em;
+    color: #ddd;
+}
+
+.review-date {
+    font-size: 0.9em;
+    color: #888;
+}
+
+/* ✅ Review Form */
+#review-form {
+    margin-top: 20px;
+    padding: 15px;
+    background: #2a2a2a;
+    border-radius: 10px;
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.3);
+}
+
+#review-form label {
+    font-size: 1.1em;
+    font-weight: 600;
+    color: #ffcc00; /* Sporty Yellow */
+    display: block;
+    margin-bottom: 5px;
+}
+
+#review-form select,
+#review-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 2px solid rgba(255, 204, 0, 0.5);
+    border-radius: 6px;
+    font-size: 1em;
+    color: #ddd;
+    background: #1a1a1a;
+}
+
+#review-form textarea {
+    resize: none;
+}
+
+#review-form button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.2em;
+    font-weight: bold;
+    cursor: pointer;
+    background: linear-gradient(135deg, #ff6600, #cc5200);
+    color: white;
+    transition: all 0.3s ease-in-out;
+}
+
+#review-form button:hover {
+    transform: scale(1.05);
+    opacity: 0.9;
+}
+
+/* ✅ Review Message */
+#review-message {
+    font-size: 1.2em;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 10px;
+}
+
+/* ✅ Light Mode Styling */
+.light-mode .reviews-container {
+    background: #fff;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.light-mode .review-item {
+    background: #f4f4f4;
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.2);
+}
+
+.light-mode .review-author {
+    color: #004080;
+}
+
+.light-mode .review-comment {
+    color: #333;
+}
+
+.light-mode .review-date {
+    color: #666;
+}
+
+.light-mode #review-form {
+    background: #eaeaea;
+}
+
+.light-mode #review-form label {
+    color: #004080;
+}
+
+.light-mode #review-form select,
+.light-mode #review-form textarea {
+    background: #fff;
+    color: #222;
+    border: 2px solid #004080;
+}
+
+.light-mode #review-form button {
+    background: #0066cc;
+    color: white;
+}
+
+.light-mode #review-form button:hover {
+    transform: scale(1.05);
+}
+
+

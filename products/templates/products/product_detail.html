@@ -5,6 +5,7 @@
 
 {% block content %}
     <div class="product-detail-container">
+        <!-- ✅ Product Image Section -->
         <div class="product-image-container">
             {% if product.image %}
                 <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
@@ -13,6 +14,7 @@
             {% endif %}
         </div>
 
+        <!-- ✅ Product Info Section -->
         <div class="product-info">
             <h2 class="product-title">{{ product.name }}</h2>
             <p class="product-description">{{ product.description }}</p>
@@ -21,4 +23,80 @@
             <a href="{% url 'add_to_cart' product.id %}" class="add-to-cart-btn">Add to Cart</a>
         </div>
     </div>
+
+    <!-- ✅ Product Reviews Section -->
+    <div class="reviews-container">
+        <h3>Customer Reviews</h3>
+        
+        <!-- ✅ Display Existing Reviews -->
+        {% if reviews %}
+            <ul class="review-list">
+                {% for review in reviews %}
+                    <li class="review-item">
+                        <span class="review-author">
+                            {{ review.name }} 
+                        </span>
+                        <span class="review-rating">{% for _ in "x"|rjust:review.rating %}⭐{% endfor %}</span>
+                        <p class="review-comment">{{ review.comment }}</p>
+                        <small class="review-date">{{ review.created_at|date:"F d, Y" }}</small>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No reviews yet. Be the first to review this product!</p>
+        {% endif %}
+
+        <!-- ✅ Review Form -->
+        <h3>Leave a Review</h3>
+        <form id="review-form" action="{% url 'submit_review' product.id %}" method="post">
+            {% csrf_token %}
+            <label for="name">Your Name:</label>
+            <input type="text" name="name" id="name" required>
+
+            <label for="rating">Rating:</label>
+            <select name="rating" id="rating">
+                <option value="5">⭐⭐⭐⭐⭐</option>
+                <option value="4">⭐⭐⭐⭐</option>
+                <option value="3">⭐⭐⭐</option>
+                <option value="2">⭐⭐</option>
+                <option value="1">⭐</option>
+            </select>
+
+            <label for="comment">Comment:</label>
+            <textarea name="comment" id="comment" required></textarea>
+
+            <button type="submit">Submit Review</button>
+        </form>
+        
+        <!-- ✅ Message Display -->
+        <p id="review-message" style="display: none;"></p>
+    </div>
+
+    <!-- ✅ AJAX Script for Review Submission -->
+    <script>
+        document.getElementById("review-form").addEventListener("submit", function (e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            fetch(this.action, {
+                method: "POST",
+                body: formData,
+                headers: {
+                    "X-CSRFToken": formData.get("csrfmiddlewaretoken"),
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                let messageBox = document.getElementById("review-message");
+                messageBox.textContent = data.message;
+                messageBox.style.display = "block";
+                if (data.success) {
+                    messageBox.style.color = "green";
+                    document.getElementById("review-form").reset();
+                } else {
+                    messageBox.style.color = "red";
+                }
+            });
+        });
+    </script>
+
 {% endblock %}
