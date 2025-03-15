@@ -15,8 +15,8 @@ body {
 .cart-container {
   width: 85%;
   max-width: 1000px;
-  margin: 100px auto 40px; /* Added margin-top to avoid overlap with navbar */
-  background: #222; /* Match product card */
+  margin: 100px auto 40px;
+  background: #222;
   padding: 25px;
   border-radius: 12px;
   box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.4);
@@ -26,13 +26,13 @@ body {
 .cart-container h2 {
   font-size: 2.5em;
   font-weight: bold;
-  color: #ffcc00; /* Sporty Yellow */
+  color: #ffcc00;
   text-transform: uppercase;
   margin-bottom: 15px;
 }
 
 /* ✅ Cart Table */
-.cart-table {
+.cart-table, .order-table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
@@ -49,7 +49,7 @@ th, td {
 
 /* ✅ Table Header */
 th {
-  background: linear-gradient(135deg, #002244, #001122); /* Dark blue gradient */
+  background: linear-gradient(135deg, #002244, #001122);
   color: white;
   font-weight: bold;
   text-transform: uppercase;
@@ -115,7 +115,7 @@ input[type="number"]:focus {
   text-decoration: none;
   border-radius: 30px;
   transition: all 0.3s ease-in-out;
-  background: #ff6600; /* Orange primary button */
+  background: #ff6600;
   color: white;
   border: none;
   cursor: pointer;
@@ -126,14 +126,77 @@ input[type="number"]:focus {
   transform: scale(1.1);
 }
 
+/* ✅ Order History Page */
+.order-history-container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #222;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.order-history-container h2 {
+  text-align: center;
+  color: #ffcc00;
+  margin-bottom: 20px;
+}
+
+.order-table th {
+  background: linear-gradient(135deg, #002244, #001122);
+  color: white;
+}
+
+.order-table tbody tr:hover {
+  background: #444;
+}
+
+/* ✅ Status Badge */
+.status-badge {
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 14px;
+  color: white;
+}
+
+.status-badge.Processing { background: orange; }
+.status-badge.Shipped { background: blue; }
+.status-badge.Delivered { background: green; }
+
+/* ✅ No Orders Message */
+.no-orders {
+  text-align: center;
+  font-size: 18px;
+  color: #bbb;
+  margin-top: 20px;
+}
+
+/* ✅ Back Button */
+.back-btn {
+  display: block;
+  width: 200px;
+  margin: 20px auto;
+  padding: 10px;
+  text-align: center;
+  background: #ffcc00;
+  color: #222;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.back-btn:hover {
+  background: #e6b800;
+}
+
 /* ✅ Responsive Design */
 @media (max-width: 768px) {
-  .cart-container {
+  .cart-container, .order-history-container {
     width: 95%;
     padding: 20px;
   }
 
-  .cart-table {
+  .cart-table, .order-table {
     font-size: 0.9em;
   }
 

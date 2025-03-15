@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import (
     cart_view, add_to_cart, update_cart, remove_from_cart, 
-    get_cart_count, checkout, order_success
+    get_cart_count, checkout, order_success, order_history
 )
 
 urlpatterns = [
@@ -12,4 +12,6 @@ urlpatterns = [
     path("count/", get_cart_count, name="cart_count"),  # ✅ Get cart count
     path("checkout/", checkout, name="checkout"),  # ✅ Checkout page
     path("order-success/", order_success, name="order_success"),  # ✅ 🔥 FIXED! Added missing URL
+    path("order-history/", order_history, name="order_history"),  # ✅ New URL for order history
+    
 ]

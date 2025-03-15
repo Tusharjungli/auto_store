@@ -144,3 +144,9 @@ def checkout(request):
 def order_success(request):
     """ ✅ Displays order success page after checkout """
     return render(request, "cart/order_success.html")
+
+@login_required
+def order_history(request):
+    """ ✅ Displays the user's order history """
+    orders = Order.objects.filter(user=request.user).order_by("-created_at")  # Newest first
+    return render(request, "cart/order_history.html", {"orders": orders})

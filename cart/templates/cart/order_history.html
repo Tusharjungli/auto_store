@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Order History{% endblock %}
+
+{% block content %}
+<div class="order-history-container">
+    <h2>📦 Your Order History</h2>
+
+    {% if orders %}
+        <table class="order-table">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Date</th>
+                    <th>Items</th>
+                    <th>Total Price</th>
+                    <th>Status</th>  <!-- ✅ Future tracking integration -->
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td>#{{ order.id }}</td>
+                    <td>{{ order.created_at|date:"F d, Y H:i" }}</td>
+                    <td>
+                        <ul>
+                            {% for item in order.items.all %}
+                            <li>{{ item.product.name }} (x{{ item.quantity }}) - ₹{{ item.product.price }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <td>₹{{ order.total_price }}</td>
+                    <td>
+                        <span class="status-badge">{{ order.status }}</span>  <!-- ✅ Future order tracking -->
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="no-orders">🛒 You have no past orders.</p>
+    {% endif %}
+
+    <a href="{% url 'cart_view' %}" class="btn back-btn">🛍️ Back to Shopping</a>
+</div>
+{% endblock %}

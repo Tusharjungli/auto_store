@@ -7,8 +7,8 @@
     <title>{% block title %}Auto Spare Parts{% endblock %}</title>
 
     <!-- ✅ Main CSS -->
-    <link rel="stylesheet" type = "text/css"href="{% static 'css/style.css' %}">
-    <link rel="stylesheet" href="{% static 'css/product.css' %}"> <!-- Ensure product page uses the theme -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/product.css' %}">
 
     <!-- ✅ Light/Dark Mode Script -->
     <script>
@@ -32,17 +32,25 @@
                 <a href="{% url 'index' %}" class="logo">AutoParts</a>
                 <div class="nav-links">
                     <a href="{% url 'product_list' %}" class="nav-item">Products</a>
+                    
+                    <!-- ✅ My Orders link for logged-in users -->
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'order_history' %}" class="nav-item">My Orders</a>
+                    {% endif %}
+
+                    <!-- ✅ Cart with updated icon -->
                     <a href="{% url 'cart_view' %}" class="nav-item">
-                        <i class="fas fa-shopping-cart"></i> Cart (<span id="cart-count">{{ cart_count }}</span>)
+                        🛒 Cart (<span id="cart-count">{{ cart_count }}</span>)
                     </a>
+
                     {% if user.is_authenticated %}
                         <a href="{% url 'logout' %}" class="nav-item">Logout</a>
                     {% else %}
                         <a href="{% url 'login' %}" class="nav-item">Login</a>
                     {% endif %}
 
-                    <!-- ✅ Fixed Theme Toggle Position -->
-                    <button class="theme-toggle" onclick="toggleTheme()">
+                    <!-- ✅ Better theme toggle button -->
+                    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
                         <span id="theme-icon">🌙</span>
                     </button>
                 </div>
@@ -50,12 +58,11 @@
         </nav>
     </header>
 
-    <!-- ✅ Floating Feedback Button (Always Visible) -->
+    <!-- ✅ Floating Feedback Button -->
     <a href="{% url 'feedback_view' %}" class="feedback-float-btn">
         💬 <span>Feedback</span>
     </a>
     
-
     <main>
         {% block content %}{% endblock %}
     </main>
