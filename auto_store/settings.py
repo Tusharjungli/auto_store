@@ -98,3 +98,13 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 LOGIN_URL = "/auth/login/"
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# ✅ Email Configuration (Replace with actual credentials)
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # Use your SMTP provider
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'jungli0beast@gmail.com'  # Replace with your email
+EMAIL_HOST_PASSWORD = 'zgol cbev nmrf nvcm '  # Replace with your email app password
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+

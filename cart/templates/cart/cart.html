@@ -24,23 +24,32 @@
                     <td>{{ item.product.name }}</td>
                     <td>
                         <div class="quantity-controls">
-                            <button class="decrease-btn">-</button>
+                            <button class="decrease-btn" data-product-id="{{ item.product.id }}">-</button>
                             <input type="number" id="quantity-{{ item.product.id }}" class="cart-item-quantity" 
                                    value="{{ item.quantity }}" min="1">
-                            <button class="increase-btn">+</button>
+                            <button class="increase-btn" data-product-id="{{ item.product.id }}">+</button>
                         </div>
                     </td>
                     <td>₹{{ item.product.price }}</td>
                     <td class="item-total">₹{{ item.total_price }}</td>
                     <td>
-                        <button class="remove-from-cart-btn">❌ Remove</button>
+                        <button class="remove-from-cart-btn" data-product-id="{{ item.product.id }}">❌ Remove</button>
                     </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
 
-        <h3 id="cart-total">Total: ₹{{ total_price }}</h3>
+        <div class="cart-summary">
+            <h3 id="cart-total">Total: ₹{{ total_price }}</h3>
+
+            <!-- Checkout Form -->
+            <form action="{% url 'checkout' %}" method="POST" id="checkout-form">
+                {% csrf_token %}
+                <button type="submit" class="checkout-btn">Proceed to Checkout</button>
+            </form>
+        </div>
+
     {% else %}
         <p>Your cart is empty.</p>
     {% endif %}

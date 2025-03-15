@@ -1,8 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
+from django.core.mail import send_mail
+from django.conf import settings
+from django.contrib import messages
 from products.models import Product
-from .models import Cart, CartItem
+from .models import Cart, CartItem, Order
 
 @login_required
 def cart_view(request):
@@ -83,3 +86,61 @@ def get_cart_count(request):
     cart, _ = Cart.objects.get_or_create(user=request.user)
     cart_count = sum(item.quantity for item in cart.items.all())
     return JsonResponse({"cart_count": cart_count})
+
+@login_required
+def checkout(request):
+    """ ✅ Handles order placement and sends confirmation email """
+    cart, _ = Cart.objects.get_or_create(user=request.user)
+    cart_items = cart.items.all()
+
+    if not cart_items:
+        messages.error(request, "Your cart is empty!")
+        return redirect("cart_view")
+
+    total_price = sum(item.product.price * item.quantity for item in cart_items)
+
+    # ✅ Create an order
+    order = Order.objects.create(user=request.user, total_price=total_price)
+
+    # ✅ Move items from cart to order
+    for item in cart_items:
+        order.items.add(item)
+
+    # ✅ Clear the cart after checkout
+    cart.items.all().delete()
+
+    # ✅ Send order confirmation email
+    user_email = request.user.email
+    subject = "Order Confirmation - AutoSpare Parts"
+    message = f"""
+    Dear {request.user.username},
+
+    Thank you for your order! 🎉
+
+    Your order ID: {order.id}
+    Total Amount: ₹{total_price}
+
+    Our team is now processing your order. We will notify you once it is shipped. 
+    You can track your order status on your profile.
+
+    Have a great day! 🚗💨
+    
+    Best regards,
+    AutoSpare Parts Team
+    """
+
+    send_mail(
+        subject,
+        message,
+        settings.DEFAULT_FROM_EMAIL,
+        [user_email],
+        fail_silently=False,
+    )
+
+    messages.success(request, "Order placed successfully! A confirmation email has been sent.")
+    return redirect("order_success")  # Redirect to success page
+
+@login_required
+def order_success(request):
+    """ ✅ Displays order success page after checkout """
+    return render(request, "cart/order_success.html")
