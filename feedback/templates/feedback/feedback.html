@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Feedback{% endblock %}
+
+{% block content %}
+<body class="feedback-page">
+<link rel="stylesheet" type="text/css" href="{% static 'css/feedback.css' %}">
+
+<div class="feedback-container">
+    <h2>We Value Your Feedback</h2>
+    <p>Let us know how we can improve!</p>
+
+    <!-- ✅ Display Django form errors -->
+    {% if form.errors %}
+        <div class="error-messages">
+            <p>Please correct the errors below:</p>
+            <ul>
+                {% for field, errors in form.errors.items %}
+                    {% for error in errors %}
+                        <li>{{ field|title }}: {{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    <form method="post" action="{% url 'feedback_view' %}">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label for="id_name">Name:</label>
+            {{ form.name }}
+        </div>
+
+        <div class="form-group">
+            <label for="id_email">Email (Optional):</label>
+            {{ form.email }}
+        </div>
+
+        <div class="form-group">
+            <label for="id_category">Feedback Type:</label>
+            {{ form.category }}
+        </div>
+
+        <div class="form-group">
+            <label for="id_message">Message:</label>
+            {{ form.message }}
+        </div>
+
+        <button type="submit" class="submit-btn">Submit Feedback</button>
+    </form>
+</div>
+{% endblock %}

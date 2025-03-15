@@ -7,7 +7,7 @@
     <title>{% block title %}Auto Spare Parts{% endblock %}</title>
 
     <!-- ✅ Main CSS -->
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" type = "text/css"href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/product.css' %}"> <!-- Ensure product page uses the theme -->
 
     <!-- ✅ Light/Dark Mode Script -->
@@ -49,6 +49,12 @@
             </div>
         </nav>
     </header>
+
+    <!-- ✅ Floating Feedback Button (Always Visible) -->
+    <a href="{% url 'feedback_view' %}" class="feedback-float-btn">
+        💬 <span>Feedback</span>
+    </a>
+    
 
     <main>
         {% block content %}{% endblock %}

@@ -22,6 +22,7 @@ INSTALLED_APPS = [
     "auth_system",
     "products",
     "cart",
+    "feedback",
 ]
 
 # ✅ Middleware

@@ -12,6 +12,7 @@ urlpatterns = [
     path("", homepage, name="homepage"),  # ✅ Homepage route
     path('', index, name='index'),
     path('cart/', include('cart.urls')),
+    path('feedback/', include('feedback.urls')),
 
 
 ]
