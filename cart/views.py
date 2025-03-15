@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
+from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
-from django.contrib import messages
 from products.models import Product
-from .models import Cart, CartItem, Order
+from .models import Cart, CartItem, Order, OrderItem
 
 @login_required
 def cart_view(request):
@@ -89,7 +89,7 @@ def get_cart_count(request):
 
 @login_required
 def checkout(request):
-    """ ✅ Handles order placement and sends confirmation email """
+    """ ✅ Handles order placement and stores order items correctly """
     cart, _ = Cart.objects.get_or_create(user=request.user)
     cart_items = cart.items.all()
 
@@ -102,9 +102,14 @@ def checkout(request):
     # ✅ Create an order
     order = Order.objects.create(user=request.user, total_price=total_price)
 
-    # ✅ Move items from cart to order
+    # ✅ Move items from cart to order using OrderItem
     for item in cart_items:
-        order.items.add(item)
+        OrderItem.objects.create(
+            order=order,
+            product_name=item.product.name,  # ✅ Use 'product_name' instead of 'product'
+            price=item.product.price,  # ✅ Store the price separately
+            quantity=item.quantity,
+        )
 
     # ✅ Clear the cart after checkout
     cart.items.all().delete()
@@ -138,15 +143,14 @@ def checkout(request):
     )
 
     messages.success(request, "Order placed successfully! A confirmation email has been sent.")
-    return redirect("order_success")  # Redirect to success page
-
-@login_required
-def order_success(request):
-    """ ✅ Displays order success page after checkout """
-    return render(request, "cart/order_success.html")
+    return redirect("order_success")
 
 @login_required
 def order_history(request):
     """ ✅ Displays the user's order history """
-    orders = Order.objects.filter(user=request.user).order_by("-created_at")  # Newest first
+    orders = Order.objects.filter(user=request.user).prefetch_related("items")
     return render(request, "cart/order_history.html", {"orders": orders})
+
+def order_success(request):
+    """ ✅ Displays order success page after checkout """
+    return render(request, "cart/order_success.html")

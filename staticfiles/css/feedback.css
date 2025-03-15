@@ -1,0 +1,81 @@
+/* ✅ Feedback Page Styling */
+.feedback-container {
+  max-width: 600px;
+  margin: 80px auto;
+  padding: 25px;
+  background: #222; /* Matte dark background */
+  border-radius: 12px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.4);
+  text-align: center;
+  transition: all 0.3s ease-in-out;
+}
+
+.feedback-container h2 {
+  font-size: 2em;
+  font-weight: bold;
+  color: #ffcc00; /* Sporty Yellow */
+  margin-bottom: 8px;
+}
+
+.feedback-container p {
+  font-size: 1.2em;
+  color: #ddd;
+  margin-bottom: 20px;
+}
+
+/* ✅ Form Styling */
+.form-group {
+  text-align: left;
+  margin-bottom: 18px;
+}
+
+label {
+  font-size: 1.1em;
+  font-weight: 600;
+  color: #ffcc00; /* Sporty Yellow */
+  display: block;
+  margin-bottom: 6px;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid rgba(255, 204, 0, 0.6);
+  border-radius: 8px;
+  font-size: 1em;
+  color: #ddd;
+  background: #1a1a1a;
+  transition: border 0.3s ease-in-out;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: #ffcc00;
+  outline: none;
+}
+
+/* ✅ Improve textarea */
+textarea {
+  resize: vertical;
+  min-height: 100px;
+  max-height: 250px;
+}
+
+/* ✅ Submit Button */
+button {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.2em;
+  font-weight: bold;
+  cursor: pointer;
+  background: linear-gradient(135deg, #ff6600, #cc5200);
+  color: white;
+  transition: all 0.3s ease-in-out;
+}
+
+button:hover {
+  transform: scale(1.05);
+  opacity: 0.9;
+}
+

@@ -11,27 +11,40 @@
             <thead>
                 <tr>
                     <th>Order ID</th>
-                    <th>Date</th>
-                    <th>Items</th>
+                    <th>Date & Time (IST)</th>
+                    <th>Product Name</th>
+                    <th>Quantity</th>
                     <th>Total Price</th>
-                    <th>Status</th>  <!-- ✅ Future tracking integration -->
+                    <th>Status</th>
                 </tr>
             </thead>
             <tbody>
                 {% for order in orders %}
                 <tr>
                     <td>#{{ order.id }}</td>
-                    <td>{{ order.created_at|date:"F d, Y H:i" }}</td>
                     <td>
-                        <ul>
+                        {% load tz %}
+                        {% timezone "Asia/Kolkata" %}
+                            {{ order.created_at|date:"F d, Y" }} - {{ order.created_at|time:"h:i A" }}
+                        {% endtimezone %}
+                    </td> 
+                    <td>
+                        <ul class="order-items">
                             {% for item in order.items.all %}
-                            <li>{{ item.product.name }} (x{{ item.quantity }}) - ₹{{ item.product.price }}</li>
+                            <li class="product-name">{{ item.product.name }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <td>
+                        <ul class="order-items quantity-column">
+                            {% for item in order.items.all %}
+                            <li class="quantity">{{ item.quantity }}</li>
                             {% endfor %}
                         </ul>
                     </td>
                     <td>₹{{ order.total_price }}</td>
                     <td>
-                        <span class="status-badge">{{ order.status }}</span>  <!-- ✅ Future order tracking -->
+                        <span class="status-badge {{ order.status }}">{{ order.status }}</span>  
                     </td>
                 </tr>
                 {% endfor %}
