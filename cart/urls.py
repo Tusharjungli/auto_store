@@ -1,17 +1,19 @@
 from django.urls import path
-from .views import (
-    cart_view, add_to_cart, update_cart, remove_from_cart, 
-    get_cart_count, checkout, order_success, order_history
-)
+from . import views  # ✅ Better readability
 
 urlpatterns = [
-    path("", cart_view, name="cart_view"),  # ✅ View cart page
-    path("add/<int:product_id>/", add_to_cart, name="add_to_cart"),  # ✅ Add item to cart
-    path("update/<int:product_id>/", update_cart, name="update_cart"),  # ✅ Update cart item quantity
-    path("remove/<int:product_id>/", remove_from_cart, name="remove_from_cart"),  # ✅ Remove item from cart
-    path("count/", get_cart_count, name="cart_count"),  # ✅ Get cart count
-    path("checkout/", checkout, name="checkout"),  # ✅ Checkout page
-    path("order-success/", order_success, name="order_success"),  # ✅ 🔥 FIXED! Added missing URL
-    path("order-history/", order_history, name="order_history"),  # ✅ New URL for order history
+    # 🛒 Cart Management
+    path("", views.cart_view, name="cart_view"),  # ✅ View cart page
+    path("add/<int:product_id>/", views.add_to_cart, name="add_to_cart"),  # ✅ Add item to cart
+    path("update/<int:product_id>/", views.update_cart, name="update_cart"),  # ✅ Update cart item quantity
+    path("remove/<int:product_id>/", views.remove_from_cart, name="remove_from_cart"),  # ✅ Remove item from cart
+    path("count/", views.get_cart_count, name="cart_count"),  # ✅ Get cart count
     
+    # ✅ Order & Checkout
+    path("checkout/", views.checkout, name="checkout"),  # ✅ Checkout page
+    path("order-success/", views.order_success, name="order_success"),  # ✅ Order success page
+    path("order-history/", views.order_history, name="order_history"),  # ✅ Order history page
+    
+    # 🚚 Order Tracking
+    path("track/", views.track_order, name="track_order"),  # ✅ Track order page
 ]

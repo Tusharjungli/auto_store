@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}Track Order{% endblock %}
+
+{% block content %}
+<div class="order-tracking-container">
+    <h2>Track Your Order</h2>
+    <form method="GET" action="{% url 'track_order' %}">
+        <input type="text" name="order_id" placeholder="Enter Order ID" value="{{ order_id }}" required>
+        <button type="submit">Track</button>
+    </form>
+
+    {% if order %}
+        <div class="order-status">
+            <h3>Order Status: <span class="{{ order.status|lower }}">{{ order.status }}</span></h3>
+            <p><strong>Order ID:</strong> {{ order.id }}</p>
+            <p><strong>Total Price:</strong> ${{ order.total_price }}</p>
+            <p><strong>Placed On:</strong> {{ order.created_at }}</p>
+        </div>
+    {% elif order_id %}
+        <p class="error">No order found with ID: {{ order_id }}</p>
+    {% endif %}
+</div>
+{% endblock %}

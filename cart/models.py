@@ -2,10 +2,11 @@ from django.db import models
 from django.contrib.auth.models import User
 from products.models import Product
 from django.utils import timezone
+from datetime import timedelta
 
 class Cart(models.Model):
     """ ✅ Represents a user's shopping cart """
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="carts")  # ✅ Allow multiple carts per user
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="carts")  
     created_at = models.DateTimeField(auto_now_add=True)
 
     def get_total_price(self):
@@ -45,7 +46,7 @@ class CartItem(models.Model):
         """ ✅ Ensure cart is deleted if it's empty after removing this item """
         cart = self.cart
         super().delete(*args, **kwargs)
-        cart.delete_if_empty()  # ✅ Check if cart should be deleted
+        cart.delete_if_empty()
 
     def __str__(self):
         return f"{self.quantity} x {self.product.name} (Cart {self.cart.id})"
@@ -63,6 +64,9 @@ class Order(models.Model):
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="Processing")
     created_at = models.DateTimeField(default=timezone.now)
+    
+    # ✅ New Field: Estimated Delivery Date
+    estimated_delivery_date = models.DateField(default=timezone.now() + timedelta(days=5))
 
     def __str__(self):
         return f"Order {self.id} - {self.user.username} ({self.status})"

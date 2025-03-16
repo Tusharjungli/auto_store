@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<!-- Link Order Tracking CSS -->
+<link rel="stylesheet" type="text/css" href="{% static 'css/order_tracking.css' %}">
+
+<div class="tracking-container">
+    <h2>Track Your Order</h2>
+
+    <form method="GET" action="{% url 'track_order' %}">
+        <input type="text" name="order_id" placeholder="Enter Order ID" required>
+        <button type="submit">Track</button>
+    </form>
+
+    {% if order %}
+    <div class="order-details">
+        <h3>Order Details</h3>
+        <p><strong>Order ID:</strong> {{ order.id }}</p>
+        <p><strong>Total Price:</strong> ₹{{ order.total_price }}</p>
+        <p><strong>Created On:</strong> {{ order.created_at }}</p>
+    </div>
+
+    <!-- Order Tracking Section -->
+    <div class="order-tracking">
+        <div class="step-container">
+            {% for status, icon in statuses %}
+            <div class="step {% if order.status in status_list and status in status_list %}active{% endif %}">
+                <div class="icon">{{ icon }}</div>
+                <p>{{ status }}</p>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-bar">
+            <div class="progress" id="progress-bar"></div>
+        </div>
+    </div>
+
+    {% elif searched_id %}
+    <p>No order found with ID: <strong>{{ searched_id }}</strong></p>
+    {% endif %}
+</div>
+
+<!-- JavaScript to Ensure Smooth Progress Bar Update -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        let progressBar = document.getElementById("progress-bar");
+        let orderStatus = "{{ order.status }}".trim();
+
+        let progressWidth = "0%";
+
+        if (orderStatus === "Processing") {
+            progressWidth = "25%";
+        } else if (orderStatus === "Shipped") {
+            progressWidth = "50%";
+        } else if (orderStatus === "Out for Delivery") {
+            progressWidth = "75%";
+        } else if (orderStatus === "Delivered") {
+            progressWidth = "100%";
+        }
+
+        progressBar.style.width = progressWidth;
+    });
+</script>
+
+{% endblock %}
