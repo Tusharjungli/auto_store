@@ -60,13 +60,18 @@ TEMPLATES = [
 # ✅ WSGI Application
 WSGI_APPLICATION = "auto_store.wsgi.application"
 
-# ✅ Database Configuration (SQLite)
+# ✅ Database Configuration (PostgreSQL)
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'auto_store',  # Database name
+        'USER': 'postgres',        # Default PostgreSQL user
+        'PASSWORD': 'Jungli9356',  # Your PostgreSQL password
+        'HOST': 'localhost',       # Local server
+        'PORT': '5432',            # Default PostgreSQL port
     }
 }
+
 
 # ✅ Password Validation
 AUTH_PASSWORD_VALIDATORS = [

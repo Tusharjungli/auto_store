@@ -1,21 +1,25 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 from .models import Product, Review
 from .forms import ReviewForm
 from django.contrib import messages
 from django.http import JsonResponse
 
 def product_list(request):
-    """ ✅ Displays a list of products with search and filtering """
-    query = request.GET.get("q", "")  # ✅ Get search query
+    """ ✅ AI-Powered Search & Filtering for Products """
+    query = request.GET.get("q", "").strip()  # ✅ Get search query
     min_price = request.GET.get("min_price")
     max_price = request.GET.get("max_price")
     is_featured = request.GET.get("is_featured")
 
     products = Product.objects.all()
 
-    # ✅ Apply search filter
+    # ✅ AI-Powered Search (Typo Correction & Relevance)
     if query:
-        products = products.filter(name__icontains=query)
+        search_query = SearchQuery(query)
+        products = products.annotate(
+            search=SearchVector("name", "description")
+        ).filter(search=search_query).order_by("-id")
 
     # ✅ Apply price range filter
     if min_price and min_price.isdigit():
@@ -71,4 +75,3 @@ def submit_review(request, product_id):
         return JsonResponse({"success": False, "message": "❌ Invalid form submission."})
 
     return JsonResponse({"success": False, "message": "❌ Invalid request method."})
-

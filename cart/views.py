@@ -149,24 +149,3 @@ def order_history(request):
 def order_success(request):
     """ ✅ Displays the order success page """
     return render(request, "cart/order_success.html")
-
-def track_order(request):
-    order_id = request.GET.get("order_id")
-    order = None
-
-    if order_id:
-        order = Order.objects.filter(id=order_id).first()
-
-    statuses = [
-        ("Processing", "✅"),
-        ("Shipped", "🚚"),
-        ("Out for Delivery", "📦"),
-        ("Delivered", "🎉")
-    ]
-
-    return render(request, "cart/track_order.html", {
-        "order": order,
-        "searched_id": order_id,
-        "statuses": statuses,
-        "status_list": ["Processing", "Shipped", "Out for Delivery", "Delivered"]
-    })

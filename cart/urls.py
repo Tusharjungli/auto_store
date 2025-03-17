@@ -14,6 +14,5 @@ urlpatterns = [
     path("order-success/", views.order_success, name="order_success"),  # ✅ Order success page
     path("order-history/", views.order_history, name="order_history"),  # ✅ Order history page
     
-    # 🚚 Order Tracking
-    path("track/", views.track_order, name="track_order"),  # ✅ Track order page
+   
 ]
