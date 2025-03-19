@@ -1,13 +1,17 @@
 import os
 from pathlib import Path
+from dotenv import load_dotenv
+
+# ✅ Load Environment Variables
+load_dotenv()
 
 # ✅ Base Directory
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # ✅ Security Settings
-SECRET_KEY = "your-secret-key-here"
-DEBUG = True  # ⚠️ Change to False in Production
-ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "your-secret-key-here")  # 🔴 Replace in .env
+DEBUG = os.getenv("DJANGO_DEBUG", "True") == "True"  # Keep False in production
+ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
 
 # ✅ Installed Apps
 INSTALLED_APPS = [
@@ -23,6 +27,10 @@ INSTALLED_APPS = [
     "products",
     "cart",
     "feedback",
+    "store",
+
+    # ✅ Extensions & AI
+    "django_extensions",  # Debugging tools
 ]
 
 # ✅ Middleware
@@ -60,18 +68,13 @@ TEMPLATES = [
 # ✅ WSGI Application
 WSGI_APPLICATION = "auto_store.wsgi.application"
 
-# ✅ Database Configuration (PostgreSQL)
+# ✅ Database Configuration (Using SQLite for now)
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'auto_store',  # Database name
-        'USER': 'postgres',        # Default PostgreSQL user
-        'PASSWORD': 'Jungli9356',  # Your PostgreSQL password
-        'HOST': 'localhost',       # Local server
-        'PORT': '5432',            # Default PostgreSQL port
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
-
 
 # ✅ Password Validation
 AUTH_PASSWORD_VALIDATORS = [
@@ -87,29 +90,30 @@ TIME_ZONE = "Asia/Kolkata"
 USE_I18N = True
 USE_TZ = True
 
-# ✅ Static Files (CSS, JS, Images)
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    BASE_DIR / "static",  # Ensure this exists
-]
+# ✅ Static & Media Files
+STATIC_URL = "/static/"
+STATICFILES_DIRS = [BASE_DIR / "static"]
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
-# ✅ Media Files (Uploaded Images)
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
 # ✅ Default Primary Key Field Type
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+# ✅ Login Redirection
 LOGIN_URL = "/auth/login/"
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
-# ✅ Email Configuration (Replace with actual credentials)
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'  # Use your SMTP provider
+# ✅ Email Configuration (Move credentials to .env for security)
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'jungli0beast@gmail.com'  # Replace with your email
-EMAIL_HOST_PASSWORD = 'zgol cbev nmrf nvcm '  # Replace with your email app password
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", "your-email@gmail.com")  # 🔴 Replace in .env
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "your-app-password")  # 🔴 Replace in .env
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
+# ✅ Pinecone AI Configuration (Move API Key to .env)
+PINECONE_API_KEY = os.getenv("PINECONE_API_KEY", "your-api-key-here")  # 🔴 Replace in .env
+PINECONE_ENVIRONMENT = os.getenv("PINECONE_ENVIRONMENT", "us-east-1")  # Example: "us-east-1"
+PINECONE_INDEX_NAME = "auto-store-ai"

@@ -1,0 +1,12 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\auth_system",
+    "\\auto_store",
+    "\\auto_store\\templates",
+    "\\static",
+    "\\static\\css"
+  ],
+  "SelectedNode": "\\static\\css\\auth.css",
+  "PreviewInSolutionExplorer": false
+}
