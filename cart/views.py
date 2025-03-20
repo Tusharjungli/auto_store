@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
 from django.urls import reverse
-from products.models import Product
+from store.models import Product
 from .models import Cart, CartItem, Order, OrderItem
 
 @login_required(login_url='/auth/login/')  # ✅ Ensures users are redirected properly if logged out

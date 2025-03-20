@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from products.models import Product
+from store.models import Product
 
 def homepage(request):
     """ ✅ Renders the homepage with featured products """

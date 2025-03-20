@@ -9,7 +9,7 @@
         <div class="hero-content">
             <h1>Welcome to Auto Store</h1>
             <p>Your one-stop shop for automobile spare parts</p>
-            <a href="{% url 'product_list' %}" class="btn btn-primary">Shop Now</a>
+            <a href="{% url 'store:product_list' %}" class="btn btn-primary">Shop Now</a>
         </div>
     </section>
 
@@ -23,7 +23,7 @@
                     <h3 class="product-name">{{ product.name }}</h3>
                     <p class="product-price">₹{{ product.price }}</p>
                     <div class="product-buttons">
-                        <a href="{% url 'product_detail' product.id %}" class="btn btn-secondary">View Details</a>
+                        <a href="{% url 'store:product_detail' product.id %}" class="btn btn-secondary">View Details</a>
                         <a href="{% url 'add_to_cart' product.id %}" class="btn btn-primary">Add to Cart</a>
                     </div>
                 </div>

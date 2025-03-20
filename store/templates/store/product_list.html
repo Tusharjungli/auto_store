@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Products - Auto Store{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h2 class="section-title">Available Products</h2>
+
+        <div class="product-grid">
+            {% for product in products %}
+                <div class="product-card">
+                    {% if product.image %}
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-thumbnail">
+                    {% else %}
+                        <img src="{% static 'images/default-product.jpg' %}" alt="No Image Available" class="product-thumbnail">
+                    {% endif %}
+
+                    <h3 class="product-name">{{ product.name }}</h3>
+                    <p class="product-price">₹{{ product.price }}</p>
+
+                    <!-- ✅ Stock Availability Display -->
+                    {% if product.stock > 0 %}
+                        <p class="in-stock">✅ In Stock ({{ product.stock }} available)</p>
+                        <div class="product-buttons">
+                            <a href="{% url 'store:product_detail' product.id %}" class="view-details-btn">View Details</a>
+                            <a href="{% url 'add_to_cart' product.id %}" class="add-to-cart-btn">Add to Cart</a>
+                        </div>
+                    {% else %}
+                        <p class="out-of-stock">❌ Out of Stock</p>
+                        <div class="product-buttons">
+                            <a href="{% url 'store:product_detail' product.id %}" class="view-details-btn">View Details</a>
+                            <button class="add-to-cart-btn disabled" disabled>Out of Stock</button>
+                        </div>
+                    {% endif %}
+                </div>
+            {% empty %}
+                <p class="no-products">No products available.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- ✅ CSS Improvements -->
+    <style>
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 20px 0;
+        }
+
+        .product-card {
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+            background: #fff;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-thumbnail {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .product-name {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+
+        .product-price {
+            font-size: 16px;
+            font-weight: bold;
+            color: #27ae60;
+        }
+
+        .product-buttons {
+            margin-top: 10px;
+        }
+
+        .view-details-btn, .add-to-cart-btn {
+            display: inline-block;
+            padding: 8px 12px;
+            text-decoration: none;
+            color: #fff;
+            border-radius: 5px;
+            margin: 5px;
+            font-size: 14px;
+        }
+
+        .view-details-btn {
+            background: #3498db;
+        }
+
+        .add-to-cart-btn {
+            background: #27ae60;
+        }
+
+        .add-to-cart-btn.disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+        }
+
+        .in-stock {
+            color: green;
+            font-weight: bold;
+        }
+
+        .out-of-stock {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+{% endblock %}

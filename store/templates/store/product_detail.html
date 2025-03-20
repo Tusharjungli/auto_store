@@ -20,23 +20,36 @@
             <p class="product-description">{{ product.description }}</p>
             <h3 class="product-price">Price: <span>₹{{ product.price }}</span></h3>
 
-            <a href="{% url 'add_to_cart' product.id %}" class="add-to-cart-btn">Add to Cart</a>
+            <!-- ✅ Stock Availability -->
+            {% if product.stock > 0 %}
+                <p class="in-stock">✅ In Stock ({{ product.stock }} available)</p>
+                <a href="{% url 'add_to_cart' product.id %}" class="add-to-cart-btn">Add to Cart</a>
+            {% else %}
+                <p class="out-of-stock">❌ Out of Stock</p>
+                <button class="add-to-cart-btn disabled" disabled>Out of Stock</button>
+            {% endif %}
         </div>
     </div>
 
     <!-- ✅ Product Reviews Section -->
     <div class="reviews-container">
         <h3>Customer Reviews</h3>
-        
+
         <!-- ✅ Display Existing Reviews -->
         {% if reviews %}
             <ul class="review-list">
                 {% for review in reviews %}
                     <li class="review-item">
-                        <span class="review-author">
-                            {{ review.name }} 
+                        <span class="review-author">{{ review.name }}</span>
+                        <span class="review-rating">
+                            {% for _ in "12345"|make_list %}
+                                {% if forloop.counter <= review.rating %}
+                                    ⭐
+                                {% else %}
+                                    ☆
+                                {% endif %}
+                            {% endfor %}
                         </span>
-                        <span class="review-rating">{% for _ in "x"|rjust:review.rating %}⭐{% endfor %}</span>
                         <p class="review-comment">{{ review.comment }}</p>
                         <small class="review-date">{{ review.created_at|date:"F d, Y" }}</small>
                     </li>
@@ -48,7 +61,7 @@
 
         <!-- ✅ Review Form -->
         <h3>Leave a Review</h3>
-        <form id="review-form" action="{% url 'submit_review' product.id %}" method="post">
+        <form id="review-form" action="{% url 'store:submit_review' product.id %}" method="post">
             {% csrf_token %}
             <label for="name">Your Name:</label>
             <input type="text" name="name" id="name" required>
@@ -67,31 +80,52 @@
 
             <button type="submit">Submit Review</button>
         </form>
-        
+
         <!-- ✅ Message Display -->
         <p id="review-message" style="display: none;"></p>
     </div>
 
-    <!-- ✅ AJAX Script for Review Submission -->
+    <!-- ✅ Improved AJAX Script for Review Submission -->
     <script>
         document.getElementById("review-form").addEventListener("submit", function (e) {
             e.preventDefault();
             const formData = new FormData(this);
+            
             fetch(this.action, {
                 method: "POST",
                 body: formData,
-                headers: {
-                    "X-CSRFToken": formData.get("csrfmiddlewaretoken"),
-                },
+                headers: { "X-CSRFToken": formData.get("csrfmiddlewaretoken") },
             })
             .then(response => response.json())
             .then(data => {
                 let messageBox = document.getElementById("review-message");
                 messageBox.textContent = data.message;
                 messageBox.style.display = "block";
+
                 if (data.success) {
                     messageBox.style.color = "green";
                     document.getElementById("review-form").reset();
+
+                    // ✅ Dynamically Add New Review Without Reloading
+                    let reviewList = document.querySelector(".review-list");
+                    if (!reviewList) {
+                        reviewList = document.createElement("ul");
+                        reviewList.classList.add("review-list");
+                        document.querySelector(".reviews-container").appendChild(reviewList);
+                    }
+
+                    let newReview = document.createElement("li");
+                    newReview.classList.add("review-item");
+                    newReview.innerHTML = `
+                        <span class="review-author">${formData.get("name")}</span>
+                        <span class="review-rating">${"⭐".repeat(formData.get("rating"))} ${"☆".repeat(5 - formData.get("rating"))}</span>
+                        <p class="review-comment">${formData.get("comment")}</p>
+                        <small class="review-date">Just now</small>
+                    `;
+                    reviewList.prepend(newReview);
+
+                    // ✅ Scroll to Review Section
+                    window.scrollTo({ top: reviewList.offsetTop, behavior: "smooth" });
                 } else {
                     messageBox.style.color = "red";
                 }

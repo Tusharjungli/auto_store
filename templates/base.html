@@ -9,11 +9,11 @@
     <!-- ✅ Main CSS -->
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/product.css' %}">
-    <link rel="stylesheet" href="{% static 'css/order_history.css' %}"> <!-- ✅ Added Order History CSS -->
+    <link rel="stylesheet" href="{% static 'css/order_history.css' %}"> 
+    <link rel="stylesheet" href="{% static 'css/search_results.css' %}">
 
     <!-- ✅ Light/Dark Mode Script -->
     <script>
-        // Apply theme BEFORE page renders to prevent flashing effect
         (function () {
             const currentTheme = localStorage.getItem("theme") || "dark";
             document.documentElement.classList.toggle("light-mode", currentTheme === "light");
@@ -37,15 +37,21 @@
         <nav class="navbar">
             <div class="nav-container">
                 <a href="{% url 'index' %}" class="logo">AutoParts</a>
+                
+                <!-- ✅ Modern Search Bar -->
+                <form action="{% url 'store:ai_search' %}" method="GET" class="search-form">
+                    <input type="text" name="q" placeholder="Search auto parts..." required>
+                    <button type="submit">🔍</button>
+                </form>
+
                 <div class="nav-links">
-                    <a href="{% url 'product_list' %}" class="nav-item">Products</a>
+                    <a href="{% url 'store:product_list' %}" class="nav-item">Products</a>
                     
-                    <!-- ✅ My Orders link for logged-in users -->
                     {% if user.is_authenticated %}
                         <a href="{% url 'order_history' %}" class="nav-item">My Orders</a>
                     {% endif %}
 
-                    <!-- ✅ Cart with updated icon -->
+                    <!-- ✅ Dynamic Cart Counter -->
                     <a href="{% url 'cart_view' %}" class="nav-item">
                         🛒 Cart (<span id="cart-count">{{ cart_count }}</span>)
                     </a>
@@ -56,7 +62,6 @@
                         <a href="{% url 'login' %}" class="nav-item">Login</a>
                     {% endif %}
 
-                    <!-- ✅ Better theme toggle button -->
                     <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
                         <span id="theme-icon">🌙</span>
                     </button>

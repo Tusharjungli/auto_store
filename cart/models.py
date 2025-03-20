@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from products.models import Product
+from store.models import Product
 from django.utils import timezone
 
 class Cart(models.Model):
@@ -48,7 +48,7 @@ class CartItem(models.Model):
         cart.delete_if_empty()  # ✅ Check if cart should be deleted
 
     def __str__(self):
-        return f"{self.quantity} x {self.product.name} (Cart {self.cart.id})"
+        return f"{self.quantity} x {self.store.name} (Cart {self.cart.id})"
 
 # ✅ Order Model
 class Order(models.Model):

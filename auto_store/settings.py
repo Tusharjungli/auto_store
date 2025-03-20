@@ -24,7 +24,6 @@ INSTALLED_APPS = [
 
     # ✅ Custom Apps
     "auth_system",
-    "products",
     "cart",
     "feedback",
     "store",

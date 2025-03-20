@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
-from products.models import Product
+from store.models import Product
 from .models import Cart, CartItem
 
 class CartTests(TestCase):
