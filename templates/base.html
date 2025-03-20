@@ -21,14 +21,18 @@
 
         document.addEventListener("DOMContentLoaded", function () {
             const themeIcon = document.getElementById("theme-icon");
-            const isLightMode = document.documentElement.classList.contains("light-mode");
-            themeIcon.textContent = isLightMode ? "🌞" : "🌙";
+            if (themeIcon) {
+                const isLightMode = document.documentElement.classList.contains("light-mode");
+                themeIcon.textContent = isLightMode ? "🌞" : "🌙";
+                themeIcon.setAttribute("aria-pressed", isLightMode);
+            }
         });
 
         function toggleTheme() {
             const isLightMode = document.documentElement.classList.toggle("light-mode");
             localStorage.setItem("theme", isLightMode ? "light" : "dark");
             document.getElementById("theme-icon").textContent = isLightMode ? "🌞" : "🌙";
+            document.getElementById("theme-icon").setAttribute("aria-pressed", isLightMode);
         }
     </script>
 </head>
@@ -36,36 +40,38 @@
     <header>
         <nav class="navbar">
             <div class="nav-container">
+                <!-- Three-dot menu (left) -->
+                <div class="three-dot-menu">⋮</div> <!-- Removed inline onclick -->
+
+                <!-- Logo (center) -->
                 <a href="{% url 'index' %}" class="logo">AutoParts</a>
-                
-                <!-- ✅ Modern Search Bar -->
+
+                <!-- Search Bar (right) -->
                 <form action="{% url 'store:ai_search' %}" method="GET" class="search-form">
-                    <input type="text" name="q" placeholder="Search auto parts..." required>
+                    <input type="text" name="q" placeholder="Search auto parts..." autocomplete="off" required>
                     <button type="submit">🔍</button>
                 </form>
+            </div>
 
-                <div class="nav-links">
-                    <a href="{% url 'store:product_list' %}" class="nav-item">Products</a>
-                    
-                    {% if user.is_authenticated %}
-                        <a href="{% url 'order_history' %}" class="nav-item">My Orders</a>
-                    {% endif %}
+            <!-- Hidden Dropdown Menu -->
+            <div class="menu-dropdown">
+                <a href="{% url 'store:product_list' %}" class="nav-item">Products</a>
 
-                    <!-- ✅ Dynamic Cart Counter -->
-                    <a href="{% url 'cart_view' %}" class="nav-item">
-                        🛒 Cart (<span id="cart-count">{{ cart_count }}</span>)
-                    </a>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'order_history' %}" class="nav-item">My Orders</a>
+                {% endif %}
 
-                    {% if user.is_authenticated %}
-                        <a href="{% url 'logout' %}" class="nav-item">Logout</a>
-                    {% else %}
-                        <a href="{% url 'login' %}" class="nav-item">Login</a>
-                    {% endif %}
+                <a href="{% url 'cart_view' %}" class="nav-item">🛒 Cart (<span id="cart-count">{% if cart_count %}{{ cart_count }}{% else %}0{% endif %}</span>)</a>
 
-                    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
-                        <span id="theme-icon">🌙</span>
-                    </button>
-                </div>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'logout' %}" class="nav-item">Logout</a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="nav-item">Login</a>
+                {% endif %}
+
+                <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+                    <span id="theme-icon" aria-pressed="false">🌙</span>
+                </button>
             </div>
         </nav>
     </header>
