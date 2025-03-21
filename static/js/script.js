@@ -2,8 +2,8 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log("script.js loaded!");
 
     // ✅ Toggle Three-Dot Menu Dropdown
-    const menuToggle = document.querySelector(".three-dot-menu"); // Selector for the three-dot menu
-    const dropdownMenu = document.querySelector(".menu-dropdown"); // Selector for the dropdown menu
+    const menuToggle = document.querySelector(".three-dot-menu");
+    const dropdownMenu = document.querySelector(".menu-dropdown");
 
     if (menuToggle && dropdownMenu) {
         menuToggle.addEventListener("click", function (event) {
@@ -13,10 +13,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (dropdownMenu.classList.contains("active")) {
                 dropdownMenu.style.display = "block";
-                setTimeout(() => dropdownMenu.style.opacity = "1", 50);
+                setTimeout(() => (dropdownMenu.style.opacity = "1"), 50);
             } else {
                 dropdownMenu.style.opacity = "0";
-                setTimeout(() => dropdownMenu.style.display = "none", 300); // Hide smoothly
+                setTimeout(() => (dropdownMenu.style.display = "none"), 300);
             }
         });
 
@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 dropdownMenu.classList.remove("active");
                 menuToggle.classList.remove("rotated");
                 dropdownMenu.style.opacity = "0";
-                setTimeout(() => dropdownMenu.style.display = "none", 300);
+                setTimeout(() => (dropdownMenu.style.display = "none"), 300);
             }
         });
 
@@ -47,11 +47,7 @@ document.addEventListener("DOMContentLoaded", function () {
         let scrollY = window.scrollY;
 
         // Apply background blur on scroll
-        if (scrollY > 50) {
-            navbar.classList.add("scrolled");
-        } else {
-            navbar.classList.remove("scrolled");
-        }
+        navbar.classList.toggle("scrolled", scrollY > 50);
 
         // Auto-hide navbar on scroll down, show on scroll up
         if (scrollY > lastScrollY) {
@@ -83,26 +79,87 @@ document.addEventListener("DOMContentLoaded", function () {
 
     fadeElements.forEach(el => fadeObserver.observe(el));
 
-    // ✅ Light/Dark Mode Toggle (Ensuring it runs after DOM loads)
-    const themeToggle = document.querySelector(".theme-toggle"); // Button for switching themes
-    const body = document.body; // Body element to apply theme changes
+    // ✅ Light/Dark Mode Toggle
+    const themeToggle = document.querySelector(".theme-toggle");
+    const body = document.body;
 
     if (themeToggle) {
-        // Check for saved theme preference in localStorage
         if (localStorage.getItem("theme") === "dark") {
-            body.classList.add("dark-mode"); // Apply dark mode
+            body.classList.add("dark-mode");
         }
 
-        // Toggle theme when button is clicked
         themeToggle.addEventListener("click", function () {
-            body.classList.toggle("dark-mode"); // Add or remove dark-mode class
+            body.classList.toggle("dark-mode");
+            localStorage.setItem("theme", body.classList.contains("dark-mode") ? "dark" : "light");
+        });
+    }
 
-            // Save preference to localStorage
-            if (body.classList.contains("dark-mode")) {
-                localStorage.setItem("theme", "dark");
-            } else {
-                localStorage.setItem("theme", "light");
+    // ✅ Handle Enter Key Press in Chat Input
+    const chatInput = document.getElementById("chatbot-input");
+    if (chatInput) {
+        chatInput.addEventListener("keypress", function (event) {
+            if (event.key === "Enter") {
+                event.preventDefault();  // Prevent default form submission
+                sendMessage();  // Call sendMessage function
             }
         });
     }
 });
+
+// ✅ CSRF Token Retrieval Function
+function getCSRFToken() {
+    let csrfToken = document.cookie
+        .split("; ")
+        .find(row => row.startsWith("csrftoken="))
+        ?.split("=")[1];
+    return csrfToken || "";
+}
+
+// ✅ Toggle Chatbot Window
+function toggleChatbot() {
+    const chatbot = document.getElementById("chatbot");
+    chatbot.style.display = chatbot.style.display === "flex" ? "none" : "flex";
+}
+
+// ✅ Handle User Message
+function sendMessage() {
+    const inputField = document.getElementById("chatbot-input");
+    const message = inputField.value.trim();
+    if (message === "") return;
+
+    // ✅ Display User Message Instantly
+    displayMessage("You", message);
+
+    // ✅ Show Typing Indicator for Bot
+    const botMessage = displayMessage("Bot", "🤖 Typing...");
+
+    // ✅ Send Message to Backend with CSRF Token
+    fetch("/chatbot/", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": getCSRFToken(),
+        },
+        body: JSON.stringify({ message: message }),
+    })
+        .then(response => response.json())
+        .then(data => {
+            botMessage.innerHTML = `<strong>Bot:</strong> ${data.response || "⚠️ No response received."}`;
+        })
+        .catch(error => {
+            botMessage.innerHTML = `<strong>Bot:</strong> ❌ Error: Could not connect.`;
+            console.error("❌ Chatbot Error:", error);
+        });
+
+    inputField.value = "";
+}
+
+// ✅ Display Message in Chat Window
+function displayMessage(sender, message) {
+    const chatbox = document.getElementById("chatbot-messages");
+    const msgElement = document.createElement("div");
+    msgElement.innerHTML = `<strong>${sender}:</strong> ${message}`;
+    chatbox.appendChild(msgElement);
+    chatbox.scrollTop = chatbox.scrollHeight;
+    return msgElement;
+}

@@ -90,5 +90,21 @@
     </footer>
     
     <script src="{% static 'js/script.js' %}"></script>
+    <!-- ✅ Chatbot Floating Button -->
+<button class="chatbot-button" onclick="toggleChatbot()">💬</button>
+
+<!-- ✅ Chatbot Window -->
+<div class="chatbot-window" id="chatbot">
+    <div class="chatbot-header">
+        AI Chatbot
+        <span onclick="toggleChatbot()" style="float:right; cursor:pointer;">✖</span>
+    </div>
+    <div class="chatbot-messages" id="chatbot-messages"></div>
+    <div class="chatbot-input">
+        <input type="text" id="chatbot-input" placeholder="Ask me something..." onkeypress="handleKeyPress(event)">
+        <button onclick="sendMessage()">➤</button>
+    </div>
+</div>
+
 </body>
 </html>

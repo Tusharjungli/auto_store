@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 from dotenv import load_dotenv
+import google.generativeai as genai  # ✅ Import Google AI SDK
 
 # ✅ Load Environment Variables
 load_dotenv()
@@ -27,6 +28,7 @@ INSTALLED_APPS = [
     "cart",
     "feedback",
     "store",
+    "chatbot",  # ✅ Added Chatbot App
 
     # ✅ Extensions & AI
     "django_extensions",  # Debugging tools
@@ -116,3 +118,9 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 PINECONE_API_KEY = os.getenv("PINECONE_API_KEY", "your-api-key-here")  # 🔴 Replace in .env
 PINECONE_ENVIRONMENT = os.getenv("PINECONE_ENVIRONMENT", "us-east-1")  # Example: "us-east-1"
 PINECONE_INDEX_NAME = "auto-store-ai"
+
+# ✅ Google Gemini AI Configuration
+GENAI_API_KEY = os.getenv("GENAI_API_KEY", "your-google-api-key-here")  # 🔴 Replace in .env
+
+# ✅ Configure Google AI with API Key
+genai.configure(api_key=GENAI_API_KEY)

@@ -14,6 +14,8 @@ urlpatterns = [
     path('', index, name='index'),
     path('cart/', include('cart.urls')),
     path('feedback/', include('feedback.urls')),
+    path('', include('chatbot.urls')),
+
 
 
 ]
