@@ -94,6 +94,9 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    // ✅ Load Chat History
+    loadChatHistory();
+
     // ✅ Handle Enter Key Press in Chat Input
     const chatInput = document.getElementById("chatbot-input");
     if (chatInput) {
@@ -121,6 +124,22 @@ function toggleChatbot() {
     chatbot.style.display = chatbot.style.display === "flex" ? "none" : "flex";
 }
 
+// ✅ Load Chat History from sessionStorage
+function loadChatHistory() {
+    const chatbox = document.getElementById("chatbot-messages");
+    const history = sessionStorage.getItem("chatHistory");
+    if (history) {
+        chatbox.innerHTML = history;
+        chatbox.scrollTop = chatbox.scrollHeight;
+    }
+}
+
+// ✅ Save Chat History to sessionStorage
+function saveChatHistory() {
+    const chatbox = document.getElementById("chatbot-messages");
+    sessionStorage.setItem("chatHistory", chatbox.innerHTML);
+}
+
 // ✅ Handle User Message
 function sendMessage() {
     const inputField = document.getElementById("chatbot-input");
@@ -133,23 +152,31 @@ function sendMessage() {
     // ✅ Show Typing Indicator for Bot
     const botMessage = displayMessage("Bot", "🤖 Typing...");
 
-    // ✅ Send Message to Backend with CSRF Token
+    // ✅ Retrieve Chat History
+    const chatbox = document.getElementById("chatbot-messages");
+    const chatHistory = chatbox.innerHTML;
+
+    // ✅ Send Message & Chat History to Backend
     fetch("/chatbot/", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
             "X-CSRFToken": getCSRFToken(),
         },
-        body: JSON.stringify({ message: message }),
+        body: JSON.stringify({
+            message: message,
+            chat_history: chatHistory
+        }),
     })
-        .then(response => response.json())
-        .then(data => {
-            botMessage.innerHTML = `<strong>Bot:</strong> ${data.response || "⚠️ No response received."}`;
-        })
-        .catch(error => {
-            botMessage.innerHTML = `<strong>Bot:</strong> ❌ Error: Could not connect.`;
-            console.error("❌ Chatbot Error:", error);
-        });
+    .then(response => response.json())
+    .then(data => {
+        botMessage.innerHTML = `<strong>Bot:</strong> ${data.response || "⚠️ No response received."}`;
+        saveChatHistory();  // ✅ Save updated chat history
+    })
+    .catch(error => {
+        botMessage.innerHTML = `<strong>Bot:</strong> ❌ Error: Could not connect.`;
+        console.error("❌ Chatbot Error:", error);
+    });
 
     inputField.value = "";
 }
