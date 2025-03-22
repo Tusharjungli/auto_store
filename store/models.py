@@ -2,6 +2,8 @@ from django.db import models
 import os
 import google.generativeai as genai
 from pinecone import Pinecone
+from django.contrib.auth.models import User
+import uuid
 
 # ✅ Configure Google Gemini AI for embeddings
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
@@ -96,3 +98,20 @@ class Subscriber(models.Model):
 
     def __str__(self):
         return self.email
+    
+
+class Order(models.Model):
+    STATUS_CHOICES = [
+        ('Processing', 'Processing'),
+        ('Shipped', 'Shipped'),
+        ('Delivered', 'Delivered'),
+    ]
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    tracking_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Processing')
+    expected_delivery = models.DateField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Order {self.id} - {self.status}"

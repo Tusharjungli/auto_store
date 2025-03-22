@@ -2,7 +2,9 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from auto_store.views import homepage, index  # ✅ Ensure homepage view is imported
+from auto_store.views import homepage, index # ✅ Ensure homepage view is imported
+from store.views import  track_order
+from uuid import UUID
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -15,8 +17,7 @@ urlpatterns = [
     path('cart/', include('cart.urls')),
     path('feedback/', include('feedback.urls')),
     path('', include('chatbot.urls')),
-
-
+    path("track-order/<int:tracking_id>/", track_order, name="track_order"),
 
 ]
 

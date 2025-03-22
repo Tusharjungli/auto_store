@@ -6,6 +6,10 @@ from store.forms import ReviewForm
 import google.generativeai as genai
 import os
 from pinecone import Pinecone
+from django.core.mail import send_mail
+from store.models import Order
+from django.utils.timezone import now, timedelta
+from uuid import UUID
 
 # ✅ Load API keys from environment
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
@@ -98,4 +102,41 @@ def product_list(request):
     """ ✅ View all products """
     products = Product.objects.all()
     return render(request, "store/product_list.html", {"products": products})
+
+def track_order(request, tracking_id):
+    try:
+        # Convert the tracking_id to UUID if it's an integer
+        tracking_id = UUID(tracking_id)
+    except ValueError:
+        return render(request, "store/track_order.html", {"error": "Invalid Tracking ID"})
+    
+    order = get_object_or_404(Order, tracking_id=tracking_id)
+    return render(request, "store/track_order.html", {"order": order})
+
+def update_order_status(request):
+    if request.method == "POST":
+        order_id = request.POST.get("order_id")
+        new_status = request.POST.get("status")
+
+        order = get_object_or_404(Order, id=order_id)
+        order.status = new_status
+
+        # Update expected delivery date if shipped
+        if new_status == "Shipped":
+            order.expected_delivery = now().date() + timedelta(days=5)
+
+        order.save()
+
+        # Send email notification
+        send_mail(
+            "Order Status Updated",
+            f"Your order {order.id} is now {order.status}. Expected delivery: {order.expected_delivery}",
+            "noreply@yourstore.com",
+            [order.user.email],
+            fail_silently=True,
+        )
+
+        return JsonResponse({"message": "Order status updated", "status": order.status})
+
+    return JsonResponse({"error": "Invalid request"}, status=400)
 
