@@ -10,7 +10,10 @@ load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # ✅ Security Settings
-SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "your-secret-key-here")  # 🔴 Replace in .env
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
+if not SECRET_KEY:
+    raise ValueError("❌ SECRET_KEY is missing. Set it in your environment.")
+
 DEBUG = os.getenv("DJANGO_DEBUG", "True") == "True"  # Keep False in production
 ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
 
@@ -115,7 +118,10 @@ EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "your-app-password")  # �
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 # ✅ Pinecone AI Configuration (Move API Key to .env)
-PINECONE_API_KEY = os.getenv("PINECONE_API_KEY", "your-api-key-here")  # 🔴 Replace in .env
+PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
+if not PINECONE_API_KEY:
+    raise ValueError("❌ PINECONE_API_KEY is missing. Set it in your environment.")
+
 PINECONE_ENVIRONMENT = os.getenv("PINECONE_ENVIRONMENT", "us-east-1")  # Example: "us-east-1"
 PINECONE_INDEX_NAME = "auto-store-ai"
 

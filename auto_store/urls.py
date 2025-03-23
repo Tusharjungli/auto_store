@@ -10,7 +10,6 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("store/", include("store.urls")),
     path("auth/", include("auth_system.urls")),  # ✅ Authentication system (Login/Signup)
-    # path("products/", include("products.urls")),  # ✅ Products app
     path("cart/", include("cart.urls")),  # ✅ Shopping cart
     path("", homepage, name="homepage"),  # ✅ Homepage route
     path('', index, name='index'),

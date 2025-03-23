@@ -10,17 +10,26 @@ GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 if not GEMINI_API_KEY:
     raise ValueError("❌ GEMINI_API_KEY is missing. Set it in your environment.")
 
-genai.configure(api_key=GEMINI_API_KEY)
+try:
+    genai.configure(api_key=GEMINI_API_KEY)
+except Exception as e:
+    print(f"❌ Error configuring Gemini AI: {e}")
 
 # ✅ Pinecone Setup
 PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
+if not PINECONE_API_KEY:
+    raise ValueError("❌ PINECONE_API_KEY is missing. Set it in your environment.")
+
 PINECONE_INDEX_NAME = os.getenv("PINECONE_INDEX_NAME")
 
 if not PINECONE_API_KEY or not PINECONE_INDEX_NAME:
     raise ValueError("❌ Pinecone API key or index name is missing. Check your environment variables.")
 
 # ✅ Initialize Pinecone when needed
-pc = Pinecone(api_key=PINECONE_API_KEY)
+try:
+    pinecone = Pinecone(api_key=PINECONE_API_KEY)
+except Exception as e:
+    print(f"❌ Error connecting to Pinecone: {e}")
 
 
 def generate_embedding(text):
@@ -60,7 +69,7 @@ class Product(models.Model):
         # ✅ Save embedding in Pinecone only if successful
         if embedding:
             try:
-                index = pc.Index(PINECONE_INDEX_NAME)
+                index = pinecone.Index(PINECONE_INDEX_NAME)
                 index.upsert(vectors=[
                     (str(self.id), embedding, {"name": self.name, "price": str(self.price)})
                 ])
@@ -71,7 +80,7 @@ class Product(models.Model):
     def delete(self, *args, **kwargs):
         """Remove product from Pinecone when deleted."""
         try:
-            index = pc.Index(PINECONE_INDEX_NAME)
+            index = pinecone.Index(PINECONE_INDEX_NAME)
             index.delete(ids=[str(self.id)])
             print(f"🗑️ Product {self.id} removed from Pinecone")
         except Exception as e:

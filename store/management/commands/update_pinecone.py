@@ -9,7 +9,10 @@ genai.configure(api_key=GEMINI_API_KEY)
 
 # Pinecone setup
 from pinecone import Pinecone
-PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")  # Your Pinecone API Key
+PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
+if not PINECONE_API_KEY:
+    raise ValueError("❌ PINECONE_API_KEY is missing. Set it in your environment.")
+
 INDEX_NAME = "auto-store-ai"  # Your new Pinecone Index
 pc = Pinecone(api_key=PINECONE_API_KEY)
 index = pc.Index(INDEX_NAME)

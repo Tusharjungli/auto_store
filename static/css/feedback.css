@@ -79,3 +79,10 @@ button:hover {
   opacity: 0.9;
 }
 
+.search-form {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+

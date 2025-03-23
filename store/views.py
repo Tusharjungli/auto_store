@@ -14,11 +14,19 @@ from uuid import UUID
 # ✅ Load API keys from environment
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
+if not PINECONE_API_KEY:
+    raise ValueError("❌ PINECONE_API_KEY is missing. Set it in your environment.")
+
 INDEX_NAME = "auto-store-ai"
 
 # ✅ Set up Google Gemini AI
 if GEMINI_API_KEY:
-    genai.configure(api_key=GEMINI_API_KEY)
+    try:
+        genai.configure(api_key=GEMINI_API_KEY)
+    except Exception as e:
+        print(f"❌ Error configuring Gemini AI in views: {e}")
+
+    
 else:
     print("⚠️ Warning: GEMINI_API_KEY is missing. AI search may not work.")
 
