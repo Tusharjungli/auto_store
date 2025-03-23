@@ -1,13 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.http import JsonResponse
-from store.models import Product, Review
+from store.models import Product, Review, Order
 from store.forms import ReviewForm
-import google.generativeai as genai
+from auto_store.config import genai, pinecone
 import os
-from pinecone import Pinecone
 from django.core.mail import send_mail
-from store.models import Order
 from django.utils.timezone import now, timedelta
 from uuid import UUID
 
@@ -25,21 +23,13 @@ if GEMINI_API_KEY:
         genai.configure(api_key=GEMINI_API_KEY)
     except Exception as e:
         print(f"❌ Error configuring Gemini AI in views: {e}")
-
-    
 else:
     print("⚠️ Warning: GEMINI_API_KEY is missing. AI search may not work.")
 
 # ✅ Initialize Pinecone safely
 if PINECONE_API_KEY:
-    pc = Pinecone(api_key=PINECONE_API_KEY)
     try:
-        index_names = [index_info["name"] for index_info in pc.list_indexes()]
-        if INDEX_NAME in index_names:
-            index = pc.Index(INDEX_NAME)
-        else:
-            print(f"⚠️ Warning: Pinecone index '{INDEX_NAME}' not found.")
-            index = None
+        index = pinecone.Index(INDEX_NAME)
     except Exception as e:
         print(f"❌ Pinecone Error: {e}")
         index = None
@@ -89,6 +79,7 @@ def product_detail(request, id):
     product = get_object_or_404(Product, id=id)
     return render(request, "store/product_detail.html", {"product": product})
 
+
 def submit_review(request, id):
     """ ✅ Handle product reviews """
     product = get_object_or_404(Product, id=id)
@@ -100,28 +91,30 @@ def submit_review(request, id):
             review.product = product
             review.save()
             messages.success(request, "Review submitted successfully!")
-            return redirect("product_detail", product_id=product.id)
         else:
             messages.error(request, "Error submitting review. Please check the form.")
     
-    return redirect("product_detail", product_id=product.id)
+    return redirect("product_detail", id=product.id)
+
 
 def product_list(request):
     """ ✅ View all products """
     products = Product.objects.all()
     return render(request, "store/product_list.html", {"products": products})
 
+
 def track_order(request, tracking_id):
+    """ ✅ Track order by tracking ID """
     try:
-        # Convert the tracking_id to UUID if it's an integer
-        tracking_id = UUID(tracking_id)
-    except ValueError:
-        return render(request, "store/track_order.html", {"error": "Invalid Tracking ID"})
-    
-    order = get_object_or_404(Order, tracking_id=tracking_id)
-    return render(request, "store/track_order.html", {"order": order})
+        order = Order.objects.get(tracking_id=tracking_id)
+    except (Order.DoesNotExist, ValueError):
+        return render(request, "track_order.html", {"error": "Invalid Tracking ID"})
+
+    return render(request, "track_order.html", {"order": order})
+
 
 def update_order_status(request):
+    """ ✅ Update order status and notify user """
     if request.method == "POST":
         order_id = request.POST.get("order_id")
         new_status = request.POST.get("status")
@@ -147,4 +140,3 @@ def update_order_status(request):
         return JsonResponse({"message": "Order status updated", "status": order.status})
 
     return JsonResponse({"error": "Invalid request"}, status=400)
-

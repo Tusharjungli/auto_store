@@ -1,7 +1,6 @@
 from django.db import models
 import os
-import google.generativeai as genai
-from pinecone import Pinecone
+from auto_store.config import genai, pinecone
 from django.contrib.auth.models import User
 import uuid
 
@@ -17,17 +16,14 @@ except Exception as e:
 
 # ✅ Pinecone Setup
 PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
-if not PINECONE_API_KEY:
-    raise ValueError("❌ PINECONE_API_KEY is missing. Set it in your environment.")
-
 PINECONE_INDEX_NAME = os.getenv("PINECONE_INDEX_NAME")
 
 if not PINECONE_API_KEY or not PINECONE_INDEX_NAME:
     raise ValueError("❌ Pinecone API key or index name is missing. Check your environment variables.")
 
-# ✅ Initialize Pinecone when needed
+# ✅ Initialize Pinecone Index
 try:
-    pinecone = Pinecone(api_key=PINECONE_API_KEY)
+    pinecone_index = pinecone.Index(PINECONE_INDEX_NAME)
 except Exception as e:
     print(f"❌ Error connecting to Pinecone: {e}")
 
@@ -40,7 +36,7 @@ def generate_embedding(text):
             content=text,
             task_type="retrieval_document"
         )
-        return response.get("embedding")
+        return response.get("embedding") if response else None
     except Exception as e:
         print(f"❌ Embedding Generation Failed: {e}")
         return None
@@ -69,8 +65,7 @@ class Product(models.Model):
         # ✅ Save embedding in Pinecone only if successful
         if embedding:
             try:
-                index = pinecone.Index(PINECONE_INDEX_NAME)
-                index.upsert(vectors=[
+                pinecone_index.upsert(vectors=[
                     (str(self.id), embedding, {"name": self.name, "price": str(self.price)})
                 ])
                 print(f"✅ Product {self.id} indexed in Pinecone")
@@ -80,15 +75,14 @@ class Product(models.Model):
     def delete(self, *args, **kwargs):
         """Remove product from Pinecone when deleted."""
         try:
-            index = pinecone.Index(PINECONE_INDEX_NAME)
-            index.delete(ids=[str(self.id)])
+            pinecone_index.delete(ids=[str(self.id)])
             print(f"🗑️ Product {self.id} removed from Pinecone")
         except Exception as e:
             print(f"❌ Pinecone Deletion Failed: {e}")
         super().delete(*args, **kwargs)
 
 
-# ✅ Review Model (Moved from `products`)
+# ✅ Review Model
 class Review(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="reviews")
     name = models.CharField(max_length=100, default="Anonymous")
@@ -100,15 +94,16 @@ class Review(models.Model):
         return f"{self.name} - {self.rating}⭐ for {self.product.name}"
 
 
-# ✅ Subscriber Model (Moved from `products`)
+# ✅ Subscriber Model
 class Subscriber(models.Model):
     email = models.EmailField(unique=True)
     subscribed_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.email
-    
 
+
+# ✅ Order Model
 class Order(models.Model):
     STATUS_CHOICES = [
         ('Processing', 'Processing'),
@@ -124,3 +119,14 @@ class Order(models.Model):
 
     def __str__(self):
         return f"Order {self.id} - {self.status}"
+
+
+# ✅ Order Item Model
+class OrderItem(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="items")
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def __str__(self):
+        return f"{self.quantity} x {self.product.name} in Order {self.order.id}"
