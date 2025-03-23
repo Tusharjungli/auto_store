@@ -98,6 +98,7 @@ body.light-mode {
     font-size: 24px;
     cursor: pointer;
     transition: transform 0.3s ease-in-out;
+    display: none;
 }
 
 .menu-toggle:hover {
@@ -385,7 +386,42 @@ body.dark-mode {
         right: 5%;
         height: 350px;
         background: linear-gradient(135deg, #1e1e1e, #2a2a2a);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    /* Added mobile navigation styles */
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        background-color: #001a33;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        z-index: 100;
+        padding: 10px 0;
+    }
+    
+    .nav-links.active {
+        display: flex;
+    }
+    
+    .nav-links li {
+        margin: 10px 0;
+        text-align: center;
+        list-style: none;
+    }
+    
+    .menu-toggle {
+        display: block;
+        position: absolute;
+        right: 20px;
+        color: white;
+    }
+    
+    .nav-container {
+        position: relative;
     }
 }
 
